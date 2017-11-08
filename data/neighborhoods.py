@@ -16,7 +16,6 @@ if len(sys.argv) is not 2:
 input_file = sys.argv[1]
 output_file = 'neighborhoods_' + input_file
 data = pd.read_csv(input_file, encoding='utf8')
-output = pd.DataFrame(columns=['crime_id', 'neighborhood'])
 
 # check for lat/lng columns
 if 'lat' not in data.columns:
@@ -24,16 +23,25 @@ if 'lat' not in data.columns:
 if 'lng' not in data.columns:
 	raise ValueError('Input has no longitude column')
 
+# replace this with whichever id you're searching for
+table_id = 'crime_id'
+if table_id not in data.columns:
+	raise ValueError('Input has no id column')
+
+output = pd.DataFrame(columns=[table_id, 'neighborhood'])
+
 for index, row in data.iterrows():
-    # construct point based on lat/lng
     lat = row['lat']
     lng = row['lng']
-    crime_id = row['crime_id']
+    relation_id = row[table_id]
+
+    # skip crimes without valid lat/lng
     if math.isnan(lat) or math.isnan(lng):
         continue
 
+    # construct point based on lat/lng
     point = Point(lng, lat)
-    output.set_value(index, 'crime_id', crime_id)
+    output.set_value(index, table_id, relation_id)
     output.set_value(index, 'neighborhood', None)
 
     # find which neighborhood this point is in and save
