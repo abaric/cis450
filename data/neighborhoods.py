@@ -1,5 +1,6 @@
 import json
 import sys
+import math
 import pandas as pd
 from shapely.geometry import shape, Point
 # run pip install shapely
@@ -27,8 +28,12 @@ for index, row in data.iterrows():
     # construct point based on lat/lng
     lat = row['lat']
     lng = row['lng']
+    crime_id = row['crime_id']
+    if math.isnan(lat) or math.isnan(lng):
+        continue
+
     point = Point(lng, lat)
-    output.set_value(index, 'crime_id', index)
+    output.set_value(index, 'crime_id', crime_id)
     output.set_value(index, 'neighborhood', None)
 
     # find which neighborhood this point is in and save
@@ -36,6 +41,7 @@ for index, row in data.iterrows():
         polygon = shape(feature['geometry'])
         if polygon.contains(point):
             name = feature['properties']['name']
+            print name
             output.set_value(index, 'neighborhood', name)
 
 output.to_csv(output_file, index=False, encoding='utf8')
