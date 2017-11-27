@@ -1,8 +1,51 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin: auto;
+  padding: 20px;
+  font: 14px "Open Sans", Helvetica, Arial, sans-serif;
+  background-color: #CEE5EA;
+}
+
+h1 {
+  font-size: 6em;
+  margin: 0;
 }
 
 a {
   color: #00B7FF;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.logo {
+  width: 250px;
+}
+
+.title-credit {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.credit {
+  margin: 0;
+  text-align: right;
+  font-style: italic;
+}
+
+@media screen and (max-width: 400px) {
+  h1 {
+    font-size: 3.35em;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .title-credit {
+    padding: 0;
+  }
 }
