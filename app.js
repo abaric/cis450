@@ -9,6 +9,7 @@ var users = require('./routes/users');
 
 var app = express();
 var mysql = require('mysql');
+var router = express.Router();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,19 +28,51 @@ app.use('/users', users);
 
 var connection = mysql.createConnection({
   host     : "rds-philly-guide.cww85eefiukb.us-east-1.rds.amazonaws.com",
-  user     : "phillyguideadmin",
-  password : "cis450f17",
+  user     : "guest",
+  password : "cis450guest",
   port     : "3306",
   database:  "phillyguide"
 });
 
-connection.connect();
+//connection.connect();
 
-connection.query('SELECT * from neighborhoods', function(err, rows, fields) {
-    if(err) console.log(err);
-    console.log('The solution is: ', rows);
-    connection.end();
+app.get('/ll', function(req, res) {
+	console.log("before");
+    res.send('table: ' + req.query['all']);
+
 });
+
+app.get('/all', function(req, res){
+
+	var table = req.query['all'];
+
+	function fetchID(data, callback) {
+        connection.query('SELECT * from ' + table, function(err, rows) {
+            if (err) {
+                callback(err, null);
+            } else 
+                callback(null, rows);
+        });
+	}
+
+});
+
+app.get('/all', function(req, res){
+
+	var table = req.query['all'];
+	
+	console.log(table);
+	
+	connection.query('SELECT * from ' + table, function(err, rows, fields) {
+	    if(err) console.log(err);
+	    
+	    console.log('The solution is: ', rows);
+	    connection.end();
+	});	
+});
+
+
+
 
 
 // catch 404 and forward to error handler

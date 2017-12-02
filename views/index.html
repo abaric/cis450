@@ -30,7 +30,7 @@
         <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
 
         
-        <form action="/education">
+        <form method="GET" action="/education">
           best/worst <input name ="education_num" type="text" value="10"> neighborhood(s) for education stats on 
           <select name="education">
             <option value="grad_rate">Graduation Rate</option>
@@ -43,7 +43,7 @@
       <br><br>
 
    
-        <form action="/crime">
+        <form method="GET" action="/crime">
            <input type="text" value="10"> of neighborhoods with most/least 
            <select name="education">
             <option value="theft">Theft</option>
@@ -55,7 +55,7 @@
         </form>
       <br><br>
 
-      <form action="/walkscore">
+      <form method="GET" action="/walkscore">
           <input name ="walkscore" type="text" value="10"> neighborhood(s) for walkscore between
 
            <input name ="w_min" type="text" value="0"> and <input name ="w_max" type="text" value="100">
@@ -67,7 +67,7 @@
 
      
         Show all 
-        <form action="/all">
+        <form method="GET" action="/all">
           <select name="all">
             <option value="crimes">Crimes</option>
             <option value="schools">Schools</option>
