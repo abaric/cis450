@@ -29,17 +29,56 @@
         <h1><%= title %></h1>
         <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
 
-        hi there
-        <form action="/nothing">
-          <select name="crimes">
-            <option value="grad_rate">grad_rate</option>
-            <option value="proficiency_rate">proficiency rate</option>
-            <option value="fiat">Fiat</option>
-            <option value="audi">Audi</option>
+        
+        <form action="/education">
+          best/worst <input name ="education_num" type="text" value="10"> neighborhood(s) for education stats on 
+          <select name="education">
+            <option value="grad_rate">Graduation Rate</option>
+            <option value="keystone_test...">Keystone Test Proficiency Rate</option>
+            <option value="most_positive...">School Rating</option>
           </select>
-          <br><br>
-          <input type="submit">
+          <input type="submit" value="GO!">
         </form>
+
+      <br><br>
+
+   
+        <form action="/crime">
+           <input type="text" value="10"> of neighborhoods with most/least 
+           <select name="education">
+            <option value="theft">Theft</option>
+            <option value="armed_robbery">Armed Robbery</option>
+            <option value="other">Other Assault/Robbery</option>
+          </select>
+           crime
+          <input type="submit" value="GO!">
+        </form>
+      <br><br>
+
+      <form action="/walkscore">
+          <input name ="walkscore" type="text" value="10"> neighborhood(s) for walkscore between
+
+           <input name ="w_min" type="text" value="0"> and <input name ="w_max" type="text" value="100">
+          
+          <input type="submit" value="GO!">
+        </form>
+
+      <br><br>
+
+     
+        Show all 
+        <form action="/all">
+          <select name="all">
+            <option value="crimes">Crimes</option>
+            <option value="schools">Schools</option>
+            <option value="walkscore">Walkscore</option>
+          </select>
+            data
+          <input type="submit" value="GO!">
+        </form>
+      
+
+
       </div>
 
       <div class="map">
