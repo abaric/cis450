@@ -29,20 +29,18 @@ var connection = mysql.createConnection({
   host     : "rds-philly-guide.cww85eefiukb.us-east-1.rds.amazonaws.com",
   user     : "phillyguideadmin",
   password : "cis450f17",
-  port     : "3306"
+  port     : "3306",
+  database:  "phillyguide"
 });
 
-connection.connect(function(err) {
-  if (err) {
-    console.error('Database connection failed: ' + err.stack);
-    return;
-  }
+connection.connect();
 
-  console.log('Connected to database.');
+connection.query('SELECT * from neighborhoods', function(err, rows, fields) {
+    if(err) console.log(err);
+    console.log('The solution is: ', rows);
+    connection.end();
 });
 
-
-connection.end();
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
