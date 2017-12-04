@@ -25,7 +25,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 
-
 var connection = mysql.createConnection({
   host     : "rds-philly-guide.cww85eefiukb.us-east-1.rds.amazonaws.com",
   user     : "guest",
@@ -42,33 +41,47 @@ app.get('/ll', function(req, res) {
 
 });
 
-app.get('/all', function(req, res){
+// app.get('/a', function(req, res){
 
-	var table = req.query['all'];
+// 	var table = req.query['all'];
 
-	function fetchID(data, callback) {
-        connection.query('SELECT * from ' + table, function(err, rows) {
-            if (err) {
-                callback(err, null);
-            } else 
-                callback(null, rows);
-        });
-	}
+// 	function fetchID(data, callback) {
+//         connection.query('SELECT * from ' + table, function(err, rows) {
+//             if (err) {
+//                 callback(err, null);
+//             } else 
+//                 callback(null, rows);
+//         });
+// 	}
 
-});
+// });
 
-app.get('/all', function(req, res){
+// app.get('/al', function(req, res){
 
-	var table = req.query['all'];
+// 	var table = req.query['all'];
 	
-	console.log(table);
+// 	console.log(table);
 	
-	connection.query('SELECT * from ' + table, function(err, rows, fields) {
-	    if(err) console.log(err);
+// 	connection.query('SELECT * from ' + table, function(err, rows, fields) {
+// 	    if(err) console.log(err);
 	    
-	    console.log('The solution is: ', rows);
-	    connection.end();
-	});	
+// 	    console.log('The solution is: ', rows);
+// 	    connection.end();
+// 	});	
+// });
+
+app.get('/a',function(req,res){
+    var table = req.query['table'];
+    console.log(table);
+    connection.query('SELECT * from ' + table, function(err, rows, fields) {
+        if(err) {
+          console.log(err);
+          res.send(500);
+        }    
+        console.log('The solution is: ', JSON.parse(JSON.stringify(rows)));
+        
+        res.send(rows);
+    }); 
 });
 
 
