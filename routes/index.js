@@ -43,10 +43,11 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET education stats. */
-router.get('/:education', function(req, res) {
-	var query = '';
+router.get('/education?education_num=:education_num&education=:education', function(req, res) {
 	var education = req.params.education;
-	if (education != 'undefined') query = query + ' where schools.';
+	var education_num = req.params.education_num;
+	var query = ' ';
+	if (education != 'undefined' && education_num != 'undefined') query = 'SELECT n.name, AVG(s.' + education + ') as category FROM neighborhoods n, located_in l, schools s WHERE n.id = l.neighborhood_id AND s.id = l.school_id GROUP BY n.id ORDER BY category DESC LIMIT ' + education_num;
 	console.log(query);
 	connection.query(query, function(err, rows, fields) {
 		 if (err) console.log(err);
