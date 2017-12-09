@@ -1,0 +1,93 @@
+CREATE TABLE schools(
+   school_id                        INTEGER  NOT NULL PRIMARY KEY 
+  ,name                             VARCHAR(100) 
+  ,graduation_rate                  INTEGER
+  ,keystone_proficiency_rate        NUMERIC(4,1)
+  ,student_college_and_career_score INTEGER 
+  ,lat                              NUMERIC(11,8) NOT NULL
+  ,lng                              NUMERIC(11,8) NOT NULL
+);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (1,'John Bartram High School','54','5.3',22,39.9219861,-75.2337074);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (2,'West Philadelphia High School','53','9.3',31,39.9585566,-75.2197478);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (3,'High School of the Future','83','13.6',27,39.9753336,-75.2031975);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (4,'Paul Robeson High School for Human Services','95','20.3',38,39.956989,-75.2056239);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (5,'William L. Sayre High School','53','5.6',29,39.9579505,-75.2385631);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (6,'Motivation High School','92','19.3',26,39.9445084,-75.2424503);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (7,'South Philadelphia High School','50','7.6',28,39.923564,-75.168355);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (8,'Benjamin Franklin High School','52','6.3',28,39.9635619,-75.1620992);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (9,'High School for Creative and Performing Arts School','97','48',0,39.9394096,-75.1653357);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (10,'Julia R. Masterman School','100','100',15,39.963419,-75.1657196);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (11,'Furness High School','67','9',25,39.924009,-75.1504426);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (12,'Franklin Learning Center','88','35.3',31,39.9650878,-75.1630953);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (13,'Girard Academic Music Program','100','61',26,39.9218056,-75.183158);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (14,'Academy at Palumbo','98','63',22,39.9399626,-75.1611034);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (15,'Science Leadership Academy','98','58.3',29,39.9557355,-75.1761326);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (16,'Constitution High School','98','26.6',26,39.9502748,-75.1523786);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (17,'The Science Leadership Academy at Beeber','NaN','51',23,39.9864498,-75.2421396);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (18,'Overbrook High School','48','5.6',23,39.9810629,-75.2381223);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (19,'High School of Engineering and Science','96','66',29,39.9832542,-75.1611042);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (20,'Murrell Dobbins Career and Technical High School','83','5.6',0,39.9950245,-75.1668647);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (21,'Strawberry Mansion High School','36','8.3',0,39.990697,-75.1840221);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (22,'Thomas A. Edison High School','58','8.3',27,40.0122402,-75.1290088);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (23,'Philadelphia Military Academy','100','21',34,39.9856468,-75.1545591);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (24,'Jules E. Mastbaum Area Vocational Technical High School','82','11',0,39.9927107,-75.1123138);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (25,'Parkway Northwest High School','94','21.3',27,40.0563397,-75.1653556);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (26,'Parkway Center City High School','95','43.6',29,39.9630133,-75.1593558);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (27,'Parkway West High School','93','24.6',27,39.9646988,-75.2158736);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (28,'William W. Bodine High School','90','52.6',27,39.9681986,-75.1431087);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (29,'Penn Treaty High School','68','9',20,39.9728503,-75.1277283);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (30,'Kensington International Business, Finance, and Entrepreneurship High School','66','4.3',30,39.9846212,-75.1269916);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (31,'Kensington High School for Creative and Performing Arts','74','6.6',21,39.9778139,-75.1333669);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (32,'Kensington Health Sciences Academy','73','6',0,39.9845608,-75.1283399);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (33,'Kensington Urban Education Academy','67','4',34,39.9843026,-75.1263289);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (34,'Building 21','NaN','7.6',36,39.9819923,-75.1463153);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (35,'The U School','NaN','NaN',25,39.9819923,-75.1463153);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (36,'The LINC','NaN','8.3',0,40.0064537,-75.1296827);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (37,'Central High School','100','93.3',24,40.0374047,-75.150317);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (38,'Roxborough High School','76','7.3',32,40.0373345,-75.2232762);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (39,'Walter B. Saul High School','100','19.6',29,40.0494237,-75.2215937);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (40,'Philadelphia High School for Girls','93','60',27,40.0384566,-75.1460233);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (41,'Martin Luther King High School','52','7',30,40.0560147,-75.1614012);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (42,'A. Philip Randolph Career and Technical High School','90','12.6',40,40.0091525,-75.1791827);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (43,'Hill-Freedman World Academy','NaN','42.6',0,40.0711822,-75.1750414);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (44,'Lankenau High School','99','25',27,40.0622944,-75.2526509);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (45,'Frankford High School','57','6.3',0,40.0215962,-75.085286);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (46,'Samuel Fels High School','67','10',24,40.0364576,-75.0924854);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (47,'Abraham Lincoln High School','66','12.6',29,40.0434383,-75.0425362);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (48,'Northeast High School','77','35.6',0,40.0555949,-75.0710617);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (49,'George Washington High School','68','20.3',0,40.105887,-75.0258996);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (50,'Arts Academy at Benjamin Rush','97','60',24,40.0826433,-74.9738784);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (51,'Swenson Arts and Technology High School','96','18.6',30,40.0920091,-75.014044);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (52,'The Workshop School',NULL,'7.5',38,39.9553038,-75.2185384);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (53,'Community Academy of Philadelphia Charter School','87','28',30,40.0044491,-75.1067085);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (54,'World Communications Charter School','82','8.6',0,39.94392,-75.1659884);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (55,'Imhotep Institute Charter High School','75','9.3',31,40.0492454,-75.1546776);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (56,'Multi-Cultural Academy Charter School','98','29',53,40.0114418,-75.1503805);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (57,'Preparatory Charter School of Mathematics, Science, Technology and Careers','93','NaN',25,39.928488,-75.186555);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (58,'Architecture and Design Charter School','90','12',0,39.9488571,-75.151996);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (59,'Freire Charter School','68','36.3',32,39.9524459,-75.1744281);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (60,'Math, Civics and Sciences Charter School','90','7.3',29,39.9611488,-75.1609637);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (61,'Philadelphia Academy Charter School','89','42.6',0,40.1027695,-75.0102092);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (62,'Mastery Charter School at Hardy Williams','76','15.3',0,39.9417623,-75.2265056);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (63,'Mathematics, Science, and Technology Community Charter School (MaST)','99','59',25,40.1138808,-75.0050153);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (64,'Franklin Towne Charter High School','95','76.3',31,40.0079255,-75.0610457);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (65,'Mariana Bracetti Academy Charter School','86','32.6',0,40.0056356,-75.094381);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (66,'Esperanza Academy Charter School','90','19',24,40.0150602,-75.1332475);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (67,'New Foundations Charter School','92','46.3',0,40.0351587,-75.0241766);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (68,'Philadelphia Performing Arts: A String Theory Charter School','NaN','30',30,39.9178907,-75.1714545);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (69,'Delaware Valley Charter High School','81','6.3',0,40.0329607,-75.1446309);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (70,'Kipp Dubois','81','22.6',32,39.9800094,-75.2210804);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (71,'Philadelphia Electrical and Technology Charter School','92','23.3',31,39.9506467,-75.1650802);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (72,'Mastery Charter School at Lenfest Campus','79','28.3',0,39.9495521,-75.1470825);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (73,'First Philadelphia Preparatory Charter School','NaN','12.6',0,40.0073134,-75.0819726);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (74,'Maritime Academy Charter School (MACHS)','87','31.3',27,40.0078954,-75.0677223);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (75,'Mastery Charter School at Shoemaker Campus','91','22',0,39.9760828,-75.2284482);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (76,'Mastery Charter School at Thomas Campus','86','34.6',0,39.9148251,-75.1635049);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (77,'Boys Latin of Philadelphia Charter School','80','25.6',33,39.9516659,-75.233437);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (78,'Mastery Charter School at Pickett Campus','81','22.3',0,40.032062,-75.1802788);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (79,'Eastern University Academy Charter School','79','18',37,40.0117295,-75.184536);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (80,'Sankofa Freedom Academy Charter School','87','26.6',42,40.0096064,-75.0880927);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (81,'Tacony Academy Charter School','79','14',28,40.0669437,-75.0660622);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (82,'Aspira Charter School at Olney','65','9.3',26,40.0291463,-75.1228206);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (83,'Mastery Charter School at Gratz','61','12',0,40.0147594,-75.1555034);
+INSERT INTO schools(school_id,name,graduation_rate,keystone_proficiency_rate,student_college_and_career_score,lat,lng) VALUES (84,'Universal Charter School at Audenried','76','10',35,39.9344647,-75.1992452);

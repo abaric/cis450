@@ -28,6 +28,57 @@
         <img src="logo.svg" alt="logo" class="logo">
         <h1><%= title %></h1>
         <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
+
+        
+        <form method="GET" action="/education">
+          best/worst <input name ="education_num" type="text" value="10"> neighborhood(s) for education stats on 
+          <select name="education">
+            <option value="grad_rate">Graduation Rate</option>
+            <option value="keystone_test...">Keystone Test Proficiency Rate</option>
+            <option value="most_positive...">School Rating</option>
+          </select>
+          <input type="submit" value="GO!">
+        </form>
+
+      <br><br>
+
+   
+        <form method="GET" action="/crime">
+           <input type="text" value="10"> neighborhoods with most/least 
+           <select name="education">
+            <option value="theft">Theft</option>
+            <option value="armed_robbery">Armed Robbery</option>
+            <option value="other">Other Assault/Robbery</option>
+          </select>
+           crime
+          <input type="submit" value="GO!">
+        </form>
+      <br><br>
+
+      <form method="GET" action="/walkscore">
+          <input name ="walkscore" type="text" value="10"> neighborhood(s) for walkscore between
+
+           <input name ="w_min" type="text" value="0"> and <input name ="w_max" type="text" value="100">
+          
+          <input type="submit" value="GO!">
+        </form>
+
+      <br><br>
+
+     
+        Show all 
+        <form method="GET" action="/a">
+          <select name="table">
+            <option value="crimes">Crimes</option>
+            <option value="schools">Schools</option>
+            <option value="walkscore">Walkscore</option>
+          </select>
+            data
+          <input type="submit" value="GO!">
+        </form>
+      
+
+
       </div>
 
       <div class="map">
@@ -44,14 +95,12 @@
           zoom: 11,
           minZoom: 10
       });
-
       // load neighborhoods layer
       map.on('load', function() {
         map.addSource('data', {
           type: 'geojson',
           data: '/js/neighborhoods.geojson'
         });
-
         map.addLayer({
           "id": "neighborhoods",
           "type": "fill",
@@ -61,7 +110,6 @@
             "fill-opacity": 0.5
           }
         });
-
         // add lines to define the boundaries
         map.addLayer({
           "id": "neighborhood-lines",
