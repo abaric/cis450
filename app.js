@@ -70,19 +70,19 @@ app.get('/ll', function(req, res) {
 // 	});	
 // });
 
-app.get('/a',function(req,res){
-    var table = req.query['table'];
-    console.log(table);
-    connection.query('SELECT * from ' + table, function(err, rows, fields) {
-        if(err) {
-          console.log(err);
-          res.send(500);
-        }    
-        console.log('The solution is: ', JSON.parse(JSON.stringify(rows)));
+// app.get('/',function(req,res){
+//     var table = req.query['table'];
+//     console.log(table);
+//     connection.query('SELECT * from ' + table, function(err, rows, fields) {
+//         if(err) {
+//           console.log(err);
+//           res.send(500);
+//         }    
+//         console.log('The solution is: ', JSON.parse(JSON.stringify(rows)));
         
-        res.send(rows);
-    }); 
-});
+//         res.send(rows);
+//     }); 
+// });
 
 
 

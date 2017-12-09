@@ -20,7 +20,10 @@
     <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js"></script>
     <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css" rel="stylesheet">
 
+
     <link href="/stylesheets/style.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -43,7 +46,7 @@
       <br><br>
 
    
-        <form method="GET" action="/crime">
+        <form method="GET" action="/hello">
            <input type="text" value="10"> of neighborhoods with most/least 
            <select name="education">
             <option value="theft">Theft</option>
@@ -67,14 +70,14 @@
 
      
         Show all 
-        <form method="GET" action="/a">
-          <select name="table">
-            <option value="crimes">Crimes</option>
+        <form>
+          <select method="GET" name="table" action="/hi">
             <option value="schools">Schools</option>
+            <option value="crimes">Crimes</option>
             <option value="walkscore">Walkscore</option>
           </select>
             data
-          <input type="submit" value="GO!">
+          <input id = "bt" type="submit" value="GO!">
         </form>
       
 
@@ -85,6 +88,21 @@
         <div id="map"></div>
       </div>
     </div>
+
+     <!--SCRIPTS -->
+
+
+<script type="text/javascript">
+    $(function() {
+      $('#bt').on("touchstart click", function(event) {
+        $.get('/hi?table=schools', function(res){
+          console.log(res);
+        });
+        return false;
+      });
+    });
+</script>
+    
 
     <script type="text/javascript">
       mapboxgl.accessToken = 'pk.eyJ1IjoiYWdyYXZlcyIsImEiOiJjaXR0ajNxb3kwMDJjMnRudnZiNXM4a2dyIn0.Mn-5UfKLdqtewXmk9P4gyA';
