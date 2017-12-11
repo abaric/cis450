@@ -33,8 +33,8 @@
 
       <form method="GET" id="t1" name="table1" action="/education">
          <select name="metric">
-                <option value="ASC">most</option>
-                <option value="DESC">least</option>
+                <option value="DESC">Top</option>
+                <option value="ASC">Worst</option>
               </select> 
         <input name ="education_num" type="text" size = 3 value="10"> neighborhood(s) for education stats on
         <select name="option">
@@ -42,7 +42,7 @@
           <option value="keystone_proficiency_rate">Keystone Test proficiency rate</option>
           <option value="most_positive_student_college_readiness_rating">student college readiness rating</option>
         </select>
-        <input type="submit">
+        <input value="GO!" type="submit">
       </form>
 
       <br><br>
@@ -50,8 +50,8 @@
       <form method="GET" name="table2" action="/crime">
        <input name ="num_rows" type="text" size = 3 value="10"> of neighborhoods with 
                <select name="metric">
-                <option value="ASC">Most</option>
-                <option value="DESC">Least</option>
+                 <option value="DESC">least</option>
+                <option value="ASC">most</option>
               </select>
        <select name="education">
         <option value="theft">theft</option>
@@ -66,9 +66,10 @@
     Show all neighborhood data on
     <form method="GET" id = "t" name="table" action="/all">
       <select>
+      <option value="crimes">crimes</option>
         <option value="schools">schools</option>
-        <option value="crimes">crimes</option>
-        <option value="walkscore">walkscore</option>
+        
+        <!--<option value="walkscore">walkscore</option>-->
       </select>
       <input id = "bt" type="submit">
     </form>
@@ -93,8 +94,9 @@
 <!--SCRIPTS -->
 <script type="text/javascript">
   $(function() {
-    var menu_item = $('#t').find(":selected").val();
     $('#bt').on("touchstart click", function(event) {
+      var menu_item = $('#t').find(":selected").val();
+      console.log(menu_item);
       $.get('/all?table=' + menu_item, function(res){
         console.log(res);
       });

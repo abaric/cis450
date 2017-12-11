@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
 router.get('/all', function(req, res, next) {
 	var table = req.query['table'];
 	console.log(table);
-	connection.query('SELECT * from ' + table, function(err, rows, fields) {
+	connection.query('SELECT * from ' + table + ' LIMIT 10', function(err, rows, fields) {
 		if(err) {
 			console.log(err);
 			res.send(500);
