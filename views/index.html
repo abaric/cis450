@@ -32,11 +32,15 @@
       <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
 
       <form method="GET" id="t1" name="table1" action="/education">
-        best/worst <input name ="education_num" type="text" value="10"> neighborhood(s) for education stats on
+         <select name="metric">
+                <option value="ASC">most</option>
+                <option value="DESC">least</option>
+              </select> 
+        <input name ="education_num" type="text" size = 3 value="10"> neighborhood(s) for education stats on
         <select name="option">
-          <option value="graduation_rate">Graduation Rate</option>
-          <option value="keystone_proficiency_rate">Keystone Test Proficiency Rate</option>
-          <option value="most_positive_student_college_readiness_rating">Student College Readiness Rating</option>
+          <option value="graduation_rate">graduation rate</option>
+          <option value="keystone_proficiency_rate">Keystone Test proficiency rate</option>
+          <option value="most_positive_student_college_readiness_rating">student college readiness rating</option>
         </select>
         <input type="submit">
       </form>
@@ -44,33 +48,36 @@
       <br><br>
 
       <form method="GET" name="table2" action="/crime">
-       <input name ="num_rows" type="text" value="10"> of neighborhoods with most/least 
+       <input name ="num_rows" type="text" size = 3 value="10"> of neighborhoods with 
+               <select name="metric">
+                <option value="ASC">Most</option>
+                <option value="DESC">Least</option>
+              </select>
        <select name="education">
-        <option value="theft">Theft</option>
-        <option value="armed_robbery">Armed Robbery</option>
-        <option value="other">Other Assault/Robbery</option>
+        <option value="theft">theft</option>
+        <option value="armed_robbery">armed Robbery</option>
+        <option value="other">other Assault/Robbery</option>
       </select>
       crime
       <input type="submit" value="GO!">
     </form>
     <br><br>
 
-    Show all 
+    Show all neighborhood data on
     <form method="GET" id = "t" name="table" action="/all">
       <select>
-        <option value="schools">Schools</option>
-        <option value="crimes">Crimes</option>
-        <option value="walkscore">Walkscore</option>
+        <option value="schools">schools</option>
+        <option value="crimes">crimes</option>
+        <option value="walkscore">walkscore</option>
       </select>
-      data
       <input id = "bt" type="submit">
     </form>
 
     <br><br>
 
      <form method="GET" action="/walkscore">
-      <input name ="walkscore" type="text" value="10"> neighborhood(s) for walkscore between
-      <input name ="w_min" type="text" value="0"> and <input name ="w_max" type="text" value="100">
+      <input name ="walkscore" type="text" size = 3 value="10"> neighborhood(s) for walkscore between
+      <input name ="w_min" type="text" size = 3 value="0"> and <input name ="w_max" type="text" size = 3 value="100">
       <input type="submit" value="GO!">
     </form>
 
