@@ -32,28 +32,28 @@
       <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
 
       <form method="GET" id="t1" name="table1" action="/education">
-         <select name="metric">
-                <option value="desc">Top</option>
-                <option value="asc">Worst</option>
-              </select> 
-        <input name ="education_num" type="text" size = 3 value="10"> neighborhood(s) for education stats on
-        <select name="educ_type">
+        <select id = "order_school" name="metric">
+          <option value="desc">Top</option>
+          <option value="asc">Worst</option>
+        </select> 
+        <input name ="education_num" id = "rows_school" type="text" size = 3 value="10"> neighborhood(s) for education stats on
+        <select id = "selected_school" name="educ_type">
           <option value="graduation_rate">graduation rate</option>
           <option value="keystone_proficiency_rate">Keystone Test proficiency rate</option>
           <option value="most_positive_student_college_readiness_rating">student college readiness rating</option>
         </select>
-        <input value="GO!" type="submit">
+        <input id = "bt_school" value="GO!" type="submit">
       </form>
 
       <br><br>
-      
-      <form method="GET" name="table2" action="/crime">
-       <input name ="num_rows" type="text" size = 3 value="10"> of neighborhoods with 
-               <select name="ordering">
-                 <option value="DESC">most</option>
-                <option value="ASC">least</option>
-              </select>
-       <select name="crime_type">
+
+      <form method="GET"  name="table2" action="/crime">
+       <input name ="num_rows" id="rows_crime" type="text" size = 3 value="10"> of neighborhoods with 
+       <select name="ordering" id = "order_crime">
+         <option value="DESC">most</option>
+         <option value="ASC">least</option>
+       </select>
+       <select id = "selected_crime" name="crime_type">
         <option value="Aggravated Assault Firearm">Aggravated Assault Firearm</option>
         <option value="Aggravated Assault No Firearm">Aggravated Assault No Firearm</option>
         <option value="All Other Offenses">All Other Offenses</option>
@@ -88,14 +88,14 @@
         <option value="Weapon Violations">Weapon Violations</option>
       </select>
       crime
-      <input value="GO!" type="submit">
+      <input id = "bt_crime" value="GO!" type="submit">
     </form>
     <br><br>
 
     Show all neighborhood data on
     <form method="GET" id = "t" name="table" action="/all">
       <select>
-      <option value="crimes">crimes</option>
+        <option value="crimes">crimes</option>
         <option value="schools">schools</option>
         
         <!--<option value="walkscore">walkscore</option>-->
@@ -105,7 +105,7 @@
 
     <br><br>
 
-     <form method="GET" action="/walkscore">
+    <form method="GET" action="/walkscore">
       <input name ="walkscore" type="text" size = 3 value="10"> neighborhood(s) for walkscore between
       <input name ="w_min" type="text" size = 3 value="0"> and <input name ="w_max" type="text" size = 3 value="100">
       <input type="submit" value="GO!">
@@ -121,12 +121,48 @@
 </div>
 
 <!--SCRIPTS -->
+<!-- get data for all neighborhood data form -->
 <script type="text/javascript">
   $(function() {
     $('#bt').on("touchstart click", function(event) {
       var menu_item = $('#t').find(":selected").val();
-      console.log(menu_item);
       $.get('/all?table=' + menu_item, function(res){
+        ////// MAPBOX PARSING HERE OF RES //////
+        console.log(res);
+      });
+      return false;
+    });
+  });
+</script>
+
+<!-- get data for all crime data form -->
+<script type="text/javascript">
+  $(function() {
+    // http://localhost:3000/crime?num_rows=10&ordering=ASC&crime_type=Disorderly+Conduct
+    $('#bt_crime').on("touchstart click", function(event) {
+      var crime = $('#selected_crime').find(":selected").val();
+      var rows = $('#rows_crime').val();
+      var ord = $('#order_crime').find(":selected").val();
+
+      $.get('/crime?num_rows=' + rows + '&ordering=' + ord + '&crime_type=' + crime, function(res){
+         ////// MAPBOX PARSING HERE OF RES //////
+        console.log(res);
+      });
+      return false;
+    });
+  });
+</script>
+
+<!-- get data for all school data form -->
+<script type="text/javascript">
+  $(function() {
+    // http://localhost:3000/education?metric=desc&education_num=10&educ_type=graduation_rate
+    $('#bt_school').on("touchstart click", function(event) {
+      var school = $('#selected_school').find(":selected").val();
+      var rows = $('#rows_school').val();
+      var ord = $('#order_school').find(":selected").val();
+      $.get('/education?metric=' + ord + '&education_num=' + rows + '&educ_type=' + school, function(res){
+         ////// MAPBOX PARSING HERE OF RES //////
         console.log(res);
       });
       return false;

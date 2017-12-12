@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Philly Guide'});
 });
 
-/* GET home page. */
+/* GET all kinds of data from the tables. */
 router.get('/all', function(req, res, next) {
 	var table = req.query['table'];
 	console.log(table);
@@ -29,23 +29,8 @@ router.get('/all', function(req, res, next) {
 		res.json(JSON.parse(JSON.stringify(rows)));
 	});  
 });
-	
 
-/* GET walk score. */
-// router.get('/walkscore', function(req, res) {
-// 	scoreOutput.find({}, function(err, result){
-// 		if (err) {
-// 			console.log(err);
-// 			res.send(500);
-// 		}
-// 		console.log('The solution is :');
-// 	});
-// 	res.send(result);
-// });
-
-//'SELECT n.name, COUNT(h.crime_id) as crimes FROM neighborhoods n, happened_in h, crimes c WHERE n.id = h.neighborhood_id AND c.id = h.crime_id AND c.type = ' + "'" + field + "'" + ' GROUP BY n.id ORDER BY crimes' + order + 'LIMIT ' + rows;
-
-
+/* GET various data from crimes table. */
 router.get('/crime', function(req, res, next) {
 	var field = req.query['crime_type'];
 	var rows = req.query['num_rows'];
@@ -61,6 +46,7 @@ router.get('/crime', function(req, res, next) {
 	});  
 });
 
+/* GET various data from schools table. */
 router.get('/education', function(req, res, next) {
 	var field = req.query['educ_type'];
 	var num_rows = req.query['education_num'];
@@ -80,6 +66,17 @@ router.get('/education', function(req, res, next) {
 });
 
 
+/* GET walk score. */
+// router.get('/walkscore', function(req, res) {
+// 	scoreOutput.find({}, function(err, result){
+// 		if (err) {
+// 			console.log(err);
+// 			res.send(500);
+// 		}
+// 		console.log('The solution is :');
+// 	});
+// 	res.send(result);
+// });
 
 
 
