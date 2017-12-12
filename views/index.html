@@ -1,104 +1,120 @@
 <!DOCTYPE html>
-<html ng-app="philly-guide">
-  <head>
-    <meta charset="utf-8">
-    <title><%= title %></title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<html>
+<head>
+  <meta charset="utf-8">
+  <title><%= title %></title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2AB0C6">
-    <meta name="theme-color" content="#FFFFFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2AB0C6">
+  <meta name="theme-color" content="#FFFFFF">
 
-    <meta property="og:title" content="Philly Guide">
-    <meta property="og:description" content="An interactive guide to Philadelphia neighborhoods featuring crime, education, and walk score datasets.">
-    <meta property="og:url" content="https://philly-guide.herokuapp.com/">
-    <meta property="og:image" content="https://philly-guide.herokuapp.com/og.png">
+  <meta property="og:title" content="Philly Guide">
+  <meta property="og:description" content="An interactive guide to Philadelphia neighborhoods featuring crime, education, and walk score datasets.">
+  <meta property="og:url" content="https://philly-guide.herokuapp.com/">
+  <meta property="og:image" content="https://philly-guide.herokuapp.com/og.png">
 
-    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
-    <script src="js/app.js" type="text/javascript"></script>
-    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js"></script>
+  <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css" rel="stylesheet">
 
-    <link href="/stylesheets/style.css" rel="stylesheet">
-  </head>
-  <body>
-    <div class="container">
-      <div class="sidebar">
-        <img src="logo.svg" alt="logo" class="logo">
-        <h1><%= title %></h1>
-        <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
+  <link href="/stylesheets/style.css" rel="stylesheet">
 
-        <div ng-controller="educationController">
-          <form method="GET" action="/education">
-            best/worst <input name ="education_num" ng-model = "education_num" type="text" value="10"> neighborhood(s) for education stats on 
-            <select name="education" ng-model="education">
-              <option value="graduation_rate">Graduation Rate</option>
-              <option value="keystone_proficiency_rate">Keystone Test Proficiency Rate</option>
-              <option value="most_positive_student_college_readiness_rating">School Rating</option>
-            </select>
-            <input type="submit" ng-click=Submit() value="GO!">
-          </form>
-        </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <img src="logo.svg" alt="logo" class="logo">
+      <h1><%= title %></h1>
+      <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
+
+      <form method="GET" id="t1" name="table1" action="/education">
+         <select name="metric">
+                <option value="DESC">Top</option>
+                <option value="ASC">Worst</option>
+              </select> 
+        <input name ="education_num" type="text" size = 3 value="10"> neighborhood(s) for education stats on
+        <select name="option">
+          <option value="graduation_rate">graduation rate</option>
+          <option value="keystone_proficiency_rate">Keystone Test proficiency rate</option>
+          <option value="most_positive_student_college_readiness_rating">student college readiness rating</option>
+        </select>
+        <input value="GO!" type="submit">
+      </form>
+
       <br><br>
 
-      <div ng-controller="crimeController">
-          <form method="GET" action="/crime">
-             <input type="text" ng-model = "crime_num" value="10"> neighborhoods with most/least 
-             <select name="crime" ng-model="crime">
-              <option value="theft">Theft</option>
-              <option  value="armed_robbery">Armed Robbery</option>
-              <option value="other">Other Assault/Robbery</option>
-            </select>
-             crime
-            <input type="submit" value="GO!">
-          </form>
-      </div>
-      <br><br>
-    
-      <div ng-controller="walkController">
-        <form method="GET" action="/walkscore">
-            <input name ="walkscore" ng-model = "walkscore" type="text" value="10"> neighborhood(s) for walkscore between
+      <form method="GET" name="table2" action="/crime">
+       <input name ="num_rows" type="text" size = 3 value="10"> of neighborhoods with 
+               <select name="metric">
+                 <option value="DESC">least</option>
+                <option value="ASC">most</option>
+              </select>
+       <select name="education">
+        <option value="theft">theft</option>
+        <option value="armed_robbery">armed Robbery</option>
+        <option value="other">other Assault/Robbery</option>
+      </select>
+      crime
+      <input type="submit" value="GO!">
+    </form>
+    <br><br>
 
-             <input name ="w_min" type="text" ng-model = "min" value="0"> and <input name ="w_max" type="text" ng-model = "max" value="100">
-            
-            <input type="submit" value="GO!">
-          </form>
-      </div>
-      <br><br>
+    Show all neighborhood data on
+    <form method="GET" id = "t" name="table" action="/all">
+      <select>
+      <option value="crimes">crimes</option>
+        <option value="schools">schools</option>
+        
+        <!--<option value="walkscore">walkscore</option>-->
+      </select>
+      <input id = "bt" type="submit">
+    </form>
 
-     
-        Show all 
-        <form method="GET" action="/a">
-          <select name="table">
-            <option value="crimes">Crimes</option>
-            <option value="schools">Schools</option>
-            <option value="walkscore">Walkscore</option>
-          </select>
-            data
-          <input type="submit" value="GO!">
-        </form>
-      
+    <br><br>
 
+     <form method="GET" action="/walkscore">
+      <input name ="walkscore" type="text" size = 3 value="10"> neighborhood(s) for walkscore between
+      <input name ="w_min" type="text" size = 3 value="0"> and <input name ="w_max" type="text" size = 3 value="100">
+      <input type="submit" value="GO!">
+    </form>
 
-      </div>
+    <br><br>
 
-      <div class="map">
-        <div id="map"></div>
-      </div>
-    </div>
+  </div>
 
-    <script type="text/javascript">
-      mapboxgl.accessToken = 'pk.eyJ1IjoiYWdyYXZlcyIsImEiOiJjaXR0ajNxb3kwMDJjMnRudnZiNXM4a2dyIn0.Mn-5UfKLdqtewXmk9P4gyA';
-      var map = new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/agraves/cj9dbpixh61632rn29p4lyqov',
-          center: [-75.156117, 39.977890],
-          zoom: 11,
-          minZoom: 10
+  <div class="map">
+    <div id="map"></div>
+  </div>
+</div>
+
+<!--SCRIPTS -->
+<script type="text/javascript">
+  $(function() {
+    $('#bt').on("touchstart click", function(event) {
+      var menu_item = $('#t').find(":selected").val();
+      console.log(menu_item);
+      $.get('/all?table=' + menu_item, function(res){
+        console.log(res);
       });
+      return false;
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  mapboxgl.accessToken = 'pk.eyJ1IjoiYWdyYXZlcyIsImEiOiJjaXR0ajNxb3kwMDJjMnRudnZiNXM4a2dyIn0.Mn-5UfKLdqtewXmk9P4gyA';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/agraves/cj9dbpixh61632rn29p4lyqov',
+    center: [-75.156117, 39.977890],
+    zoom: 11,
+    minZoom: 10
+  });
+
       // load neighborhoods layer
       map.on('load', function() {
         map.addSource('data', {
@@ -127,4 +143,4 @@
       });
     </script>
   </body>
-</html>
+  </html>
