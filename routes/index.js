@@ -6,6 +6,7 @@ var router = express.Router();
 
 var mongoose = require('mongoose');
 var mysql = require('mysql');
+var round = require('mongo-round');
 
 var mongoDB = 'mongodb://guest:cis450@ds137246.mlab.com:37246/philly-guide';
 mongoose.connect(mongoDB, {
@@ -65,12 +66,11 @@ router.get('/walkscore', function(req, res, next) {
   var neighborhoods = req.query['walkscore'];
   var from_val = req.query['w_min'];
   var to_val = req.query['w_max'];
- 	scoreOutput.aggregate([{$match: {'walkscore':{"$gte": +from_val, "$lte": +to_val}}},{$match: {'neighborhood_id':{"$ne": null}}},{$group: {_id: "$neighborhood_id", walkscore: {$avg: "$walkscore"}}}, {$sort:{'walkscore':-1}}, {$limit:+neighborhoods}], function(err, result){
+ 	scoreOutput.aggregate([{$match: {'walkscore':{"$gte": +from_val, "$lte": +to_val}}},{$match: {'neighborhood_id':{"$ne": null}}},{$group: {_id: "$neighborhood_id", walkscore: {$avg: "$walkscore"}}}, {$sort:{'walkscore':-1}}, {$project:{walkscore: round('$walkscore',2)}}, {$limit:+neighborhoods}], function(err, result){
  		if (err) {
  			console.log(err);
  			res.send(500);
  		}
-    console.log('from_val ' + from_val);
     console.log('soln: ', JSON.parse(JSON.stringify(result)));
     res.json(JSON.parse(JSON.stringify(result)));
  	});
