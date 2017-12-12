@@ -7,7 +7,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var mysql = require('mysql');
 
-var mongoDB = 'mongodb://127.0.0.1/philly-guide';
+var mongoDB = 'mongodb://guest:cis450@ds137246.mlab.com:37246/philly-guide';
 mongoose.connect(mongoDB, {
   useMongoClient: true
 });
@@ -26,7 +26,7 @@ walkscore: Number,
 neighborhood_id: Number, 
 latitude: Number, 
 longitude: Number 
-});
+}, {collection: 'walkscore'});
 
 var scoreOutput = mongoose.model("scoreOutput", walkscoreSchema);
 
@@ -61,16 +61,18 @@ router.get('/all', function(req, res, next) {
 	
 
 /* GET walk score. */
-// router.get('/walkscore', function(req, res) {
-// 	scoreOutput.find({}, function(err, result){
-// 		if (err) {
-// 			console.log(err);
-// 			res.send(500);
-// 		}
-// 		console.log('The solution is :');
-// 	});
-// 	res.send(result);
-// });
+router.get('/walkscore', function(req, res, next) {
+  var from = req.query['w_min'];
+  var to = req.query['w_max'];
+ 	scoreOutput.find({}, function(err, result){
+ 		if (err) {
+ 			console.log(err);
+ 			res.send(500);
+ 		}
+ 	});
+ 	console.log('soln: ', JSON.parse(JSON.stringify(result)));
+  res.json(JSON.parse(JSON.stringify(result)));
+ });
 
 //"SELECT n.name, AVG(s." + field + ") as category FROM neighborhoods n, located_in l, schools s WHERE n.id = l.neighborhood_id AND s.id = l.school_id GROUP by n.id ORDER BY category DESC LIMIT " + num_rows
 
