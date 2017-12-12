@@ -69,10 +69,10 @@ router.get('/walkscore', function(req, res, next) {
  			console.log(err);
  			res.send(500);
  		}
+    console.log('soln: ', JSON.parse(JSON.stringify(result)));
+    res.json(JSON.parse(JSON.stringify(result)));
  	});
- 	console.log('soln: ', JSON.parse(JSON.stringify(result)));
-  res.json(JSON.parse(JSON.stringify(result)));
- });
+  });
 
 //"SELECT n.name, AVG(s." + field + ") as category FROM neighborhoods n, located_in l, schools s WHERE n.id = l.neighborhood_id AND s.id = l.school_id GROUP by n.id ORDER BY category DESC LIMIT " + num_rows
 
