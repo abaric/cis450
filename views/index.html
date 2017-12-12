@@ -33,11 +33,11 @@
 
       <form method="GET" id="t1" name="table1" action="/education">
          <select name="metric">
-                <option value="DESC">Top</option>
-                <option value="ASC">Worst</option>
+                <option value="desc">Top</option>
+                <option value="asc">Worst</option>
               </select> 
         <input name ="education_num" type="text" size = 3 value="10"> neighborhood(s) for education stats on
-        <select name="option">
+        <select name="educ_type">
           <option value="graduation_rate">graduation rate</option>
           <option value="keystone_proficiency_rate">Keystone Test proficiency rate</option>
           <option value="most_positive_student_college_readiness_rating">student college readiness rating</option>
@@ -46,20 +46,49 @@
       </form>
 
       <br><br>
-
+      
       <form method="GET" name="table2" action="/crime">
        <input name ="num_rows" type="text" size = 3 value="10"> of neighborhoods with 
-               <select name="metric">
-                 <option value="DESC">least</option>
-                <option value="ASC">most</option>
+               <select name="ordering">
+                 <option value="DESC">most</option>
+                <option value="ASC">least</option>
               </select>
-       <select name="education">
-        <option value="theft">theft</option>
-        <option value="armed_robbery">armed Robbery</option>
-        <option value="other">other Assault/Robbery</option>
+       <select name="crime_type">
+        <option value="Aggravated Assault Firearm">Aggravated Assault Firearm</option>
+        <option value="Aggravated Assault No Firearm">Aggravated Assault No Firearm</option>
+        <option value="All Other Offenses">All Other Offenses</option>
+        <option value="Arson">Arson</option>
+        <option value="Burglary Non-Residential">Burglary Non-Residential</option>
+        <option value="Burglary Residential">Burglary Residential</option>
+        <option value="Disorderly Conduct">Disorderly Conduct</option>
+        <option value="DRIVING UNDER THE INFLUENCE">DRIVING UNDER THE INFLUENCE</option>
+        <option value="Embezzlement">Embezzlement</option>
+        <option value="Forgery and Counterfeiting">Forgery and Counterfeiting</option>
+        <option value="Gambling Violations">Gambling Violations</option>
+        <option value="Homicide - Criminal">Homicide - Criminal</option>
+        <option value="Homicide - Gross Negligence">Homicide - Gross Negligence</option>
+        <option value="Homicide - Justifiable">Homicide - Justifiable</option>
+        <option value="Liquor Law Violations">Liquor Law Violations</option>
+        <option value="Motor Vehicle Theft">Motor Vehicle Theft</option>
+        <option value="Narcotic / Drug Law Violations">Narcotic/Drug Law Violations</option>
+        <option value="Offenses Against Family and Children">Offenses Against Family and Children</option>
+        <option value="Other Assaults">Other Assaults</option>
+        <option value="Other Sex Offenses (Not Commercialized)">Other Sex Offenses (Not Commercialized)</option>
+        <option value="Prostitution and Commercialized Vice">Prostitution and Commercialized Vice</option>
+        <option value="Public Drunkenness">Public Drunkenness</option>
+        <option value="Rape">Rape</option>
+        <option value="Receiving Stolen Property">Receiving Stolen Property</option>
+        <option value="Recovered Stolen Motor Vehicle">Recovered Stolen Motor Vehicle</option>
+        <option value="Robbery Firearm">Robbery Firearm</option>
+        <option value="Robbery No Firearm">Robbery No Firearm</option>
+        <option value="Theft from Vehicle">Theft from Vehicle</option>
+        <option value="Thefts">Thefts</option>
+        <option value="Vagrancy/Loitering">Vagrancy/Loitering</option>
+        <option value="Vandalism/Criminal Mischief">Vandalism/Criminal Mischief</option>
+        <option value="Weapon Violations">Weapon Violations</option>
       </select>
       crime
-      <input type="submit" value="GO!">
+      <input value="GO!" type="submit">
     </form>
     <br><br>
 
