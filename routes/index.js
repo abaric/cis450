@@ -62,13 +62,15 @@ router.get('/all', function(req, res, next) {
 
 /* GET walk score. */
 router.get('/walkscore', function(req, res, next) {
-  var from = req.query['w_min'];
-  var to = req.query['w_max'];
- 	scoreOutput.find({}, function(err, result){
+  var neighborhoods = req.query['walkscore'];
+  var from_val = req.query['w_min'];
+  var to_val = req.query['w_max'];
+ 	scoreOutput.aggregate([{$match: {'walkscore':{"$gte": +from_val, "$lte": +to_val}}},{$match: {'neighborhood_id':{"$ne": null}}},{$group: {_id: "$neighborhood_id", walkscore: {$avg: "$walkscore"}}}, {$sort:{'walkscore':-1}}, {$limit:+neighborhoods}], function(err, result){
  		if (err) {
  			console.log(err);
  			res.send(500);
  		}
+    console.log('from_val ' + from_val);
     console.log('soln: ', JSON.parse(JSON.stringify(result)));
     res.json(JSON.parse(JSON.stringify(result)));
  	});
