@@ -22,10 +22,24 @@ a {
 }
 
 .sidebar {
-  width: 20%;
-  padding: 20px;
+  width: 23%;
+  padding: 15px;
   display: flex;
   flex-direction: column;
+  font-size:15px;
+}
+
+.sidebar h1{
+  font-family: Georgia;
+  text-align: center;
+  font-size: 30px;
+}
+
+.sidebar form{
+
+  font-family: Georgia;
+  text-align: center;
+  
 }
 
 .logo {
@@ -35,17 +49,45 @@ a {
 
 .credit {
   font-style: italic;
+  font-family: Georgia;
+  text-align: center;
 }
 
 .map {
   width: 80%;
   height: 100vh;
 }
+.center{
+  text-align: center;
+  font-family: Georgia;
+}
+
+select{
+  font-family: Georgia;
+  font-size: 15px;
+}
+
+.button {
+      background-color: #000000;
+      color: #FFFFFF;
+      padding: 10px;
+      border-radius: 100px;
+      -moz-border-radius: 10px;
+      -webkit-border-radius: 10px;
+      margin:0px;
+      text-align: center;
+       width: 400px;
+       height: 25px;
+
+  }
 
 #map {
   width: 100%;
   height: 100%;
 }
+
+
+    
 
 @media screen and (max-width: 480px) {
   h1 {

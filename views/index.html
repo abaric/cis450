@@ -30,7 +30,7 @@
       <img src="logo.svg" alt="logo" class="logo">
       <h1><%= title %></h1>
       <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
-
+      
       <form method="GET" id="t1" name="table1" action="/education">
         <select id = "order_school" name="metric">
           <option value="desc">Top</option>
@@ -42,10 +42,11 @@
           <option value="keystone_proficiency_rate">Keystone Test proficiency rate</option>
           <option value="most_positive_student_college_readiness_rating">student college readiness rating</option>
         </select>
-        <input id = "bt_school" value="GO!" type="submit">
+        <br> 
+        <input class="button" id = "bt_school" value="GO!" type="submit">
       </form>
 
-      <br><br>
+      <br> <br>
 
       <form method="GET"  name="table2" action="/crime">
        <input name ="num_rows" id="rows_crime" type="text" size = 3 value="10"> of neighborhoods with 
@@ -88,11 +89,12 @@
         <option value="Weapon Violations">Weapon Violations</option>
       </select>
       crime
-      <input id = "bt_crime" value="GO!" type="submit">
+      <br>
+      <input class="button" id = "bt_crime" value="GO!" type="submit">
     </form>
-    <br><br>
+    <br> <br>
 
-    Show all neighborhood data on
+    <div class = "center"> Show all neighborhood data on  </div>
     <form method="GET" id = "t" name="table" action="/all">
       <select>
         <option value="crimes">crimes</option>
@@ -100,15 +102,18 @@
         
         <!--<option value="walkscore">walkscore</option>-->
       </select>
-      <input id = "bt" type="submit">
+      <br> 
+      <input class="button" id = "bt" type="submit" value= "GO!">
     </form>
 
-    <br><br>
+
+    <br> <br>
 
     <form method="GET" action="/walkscore">
-      <input name ="walkscore" type="text" size = 3 value="10"> neighborhood(s) for walkscore between
-      <input name ="w_min" type="text" size = 3 value="0"> and <input name ="w_max" type="text" size = 3 value="100">
-      <input type="submit" value="GO!">
+      <input name ="walkscore" type="text" size = 3 value="10"> neighborhood(s) for walkscore from
+      <input name ="w_min" type="text" size = 3 value="0"> to <input name ="w_max" type="text" size = 3 value="100">
+      <br> 
+      <input class="button" type="submit" value="GO!">
     </form>
 
     <br><br>
