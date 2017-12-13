@@ -105,10 +105,10 @@
 
     <br><br>
 
-    <form method="GET" action="/walkscore">
-      <input name ="walkscore" type="text" size = 3 value="10"> neighborhood(s) for walkscore between
-      <input name ="w_min" type="text" size = 3 value="0"> and <input name ="w_max" type="text" size = 3 value="100">
-      <input type="submit" value="GO!">
+    <form method="GET" id="t3" action="/walkscore">
+      <input name ="walkscore" id="num_neighborhoods" type="text" size = 3 value="10"> neighborhood(s) for walkscore between
+      <input name ="w_min" id="from" type="text" size = 3 value="0"> and <input name ="w_max" id="to" type="text" size = 3 value="100">
+      <input id="bt_walk" type="submit" value="GO!">
     </form>
 
     <br><br>
@@ -162,6 +162,23 @@
       var rows = $('#rows_school').val();
       var ord = $('#order_school').find(":selected").val();
       $.get('/education?metric=' + ord + '&education_num=' + rows + '&educ_type=' + school, function(res){
+         ////// MAPBOX PARSING HERE OF RES //////
+        console.log(res);
+      });
+      return false;
+    });
+  });
+</script>
+
+<!-- get data for all walkscore data form -->
+<script type="text/javascript">
+  $(function() {
+    // http://localhost:3000/walkscore?walkscore=10&w_min=50&w_max=78
+    $('#bt_walk').on("touchstart click", function(event) {
+      var neighborhoods = $('#num_neighborhoods').val();
+      var from = $('#from').val();
+      var to = $('#to').val();
+      $.get('/walkscore?walkscore=' + neighborhoods + '&w_min=' + from + '&w_max=' + to, function(res){
          ////// MAPBOX PARSING HERE OF RES //////
         console.log(res);
       });
