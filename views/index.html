@@ -30,26 +30,26 @@
       <img src="logo.svg" alt="logo" class="logo">
       <h1><%= title %></h1>
       <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
-      
+
       <form method="GET" id="t1" name="table1" action="/education">
         <select id = "order_school" name="metric">
           <option value="desc">Top</option>
           <option value="asc">Worst</option>
-        </select> 
+        </select>
         <input name ="education_num" id = "rows_school" type="text" size = 3 value="10"> neighborhood(s) for education stats on
         <select id = "selected_school" name="educ_type">
           <option value="graduation_rate">graduation rate</option>
           <option value="keystone_proficiency_rate">Keystone Test proficiency rate</option>
           <option value="most_positive_student_college_readiness_rating">student college readiness rating</option>
         </select>
-        <br> 
+        <br>
         <input class="button" id = "bt_school" value="GO!" type="submit">
       </form>
 
       <br> <br>
 
       <form method="GET"  name="table2" action="/crime">
-       <input name ="num_rows" id="rows_crime" type="text" size = 3 value="10"> of neighborhoods with 
+       <input name ="num_rows" id="rows_crime" type="text" size = 3 value="10"> of neighborhoods with
        <select name="ordering" id = "order_crime">
          <option value="DESC">most</option>
          <option value="ASC">least</option>
@@ -99,10 +99,10 @@
       <select>
         <option value="crimes">crimes</option>
         <option value="schools">schools</option>
-        
+
         <!--<option value="walkscore">walkscore</option>-->
       </select>
-      <br> 
+      <br>
       <input class="button" id = "bt" type="submit" value= "GO!">
     </form>
 
@@ -203,32 +203,38 @@
     minZoom: 10
   });
 
-      // load neighborhoods layer
-      map.on('load', function() {
-        map.addSource('data', {
-          type: 'geojson',
-          data: '/js/neighborhoods.geojson'
-        });
-        map.addLayer({
-          "id": "neighborhoods",
-          "type": "fill",
-          "source": "data",
-          "paint": {
-            "fill-color": "#2AB0C6",
-            "fill-opacity": 0.5
-          }
-        });
-        // add lines to define the boundaries
-        map.addLayer({
-          "id": "neighborhood-lines",
-          "type": "line",
-          "source": "data",
-          "paint": {
-            "line-color": "#2AB0C6",
-            "line-width": 1.5
-          }
-        })
+  $.getJSON('/js/neighborhoods.geojson').done(function(json) {
+    var data = json;
+    // adjust data.features as necessary
+
+    // load neighborhoods layer
+    map.on('load', function() {
+      map.addSource('data', {
+        type: 'geojson',
+        data: data
       });
-    </script>
-  </body>
-  </html>
+
+      map.addLayer({
+        "id": "neighborhoods",
+        "type": "fill",
+        "source": "data",
+        "paint": {
+          "fill-color": "#2AB0C6",
+          "fill-opacity": 0.5
+        }
+      });
+      // add lines to define the boundaries
+      map.addLayer({
+        "id": "neighborhood-lines",
+        "type": "line",
+        "source": "data",
+        "paint": {
+          "line-color": "#2AB0C6",
+          "line-width": 1.5
+        }
+      })
+    });
+  });
+</script>
+</body>
+</html>
