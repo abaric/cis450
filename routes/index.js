@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-
 /* Initilize MongoDB connection*/
-
 var mongoose = require('mongoose');
 var mysql = require('mysql');
 var round = require('mongo-round');
@@ -16,7 +14,6 @@ mongoose.connect(mongoDB, {
 mongoose.Promise = global.Promise;
 //Get the default connection
 var db = mongoose.connection;
-
 
 db.on('error', console.error.bind(console, 'connection error:'));
 
@@ -37,8 +34,6 @@ var connection = mysql.createConnection({
   password : "cis450guest",
   port     : "3306",
   database:  "phillyguide"
-
-
 });
 
 /* GET home page. */
@@ -60,7 +55,6 @@ router.get('/all', function(req, res, next) {
 	});
 });
 
-
 /* GET walk score. */
 router.get('/walkscore', function(req, res, next) {
   var neighborhoods = req.query['walkscore'];
@@ -74,8 +68,7 @@ router.get('/walkscore', function(req, res, next) {
     console.log('soln: ', JSON.parse(JSON.stringify(result)));
     res.json(JSON.parse(JSON.stringify(result)));
  	});
-  });
-
+});
 
 /* GET various data from crimes table. */
 router.get('/crime', function(req, res, next) {
@@ -112,7 +105,6 @@ router.get('/education', function(req, res, next) {
 	});
 });
 
-
 /* GET walk score. */
 // router.get('/walkscore', function(req, res) {
 // 	scoreOutput.find({}, function(err, result){
@@ -124,8 +116,6 @@ router.get('/education', function(req, res, next) {
 // 	});
 // 	res.send(result);
 // });
-
-
 
 module.exports = router;
 
