@@ -8,6 +8,8 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+var mysql = require('mysql');
+var router = express.Router();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,14 +23,25 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/all', index);
+app.use('/education', index);
 app.use('/users', users);
 
+var connection = mysql.createConnection({
+	host     : "rds-philly-guide.cww85eefiukb.us-east-1.rds.amazonaws.com",
+	user     : "guest",
+	password : "cis450guest",
+	port     : "3306",
+	database:  "phillyguide"
+});
+
+
 // catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   var err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
+app.use(function(req, res, next) {
+	var err = new Error('Not Found');
+	err.status = 404;
+	next(err);
+});
 
 // error handler
 app.use(function(err, req, res, next) {

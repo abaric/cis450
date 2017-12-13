@@ -1,49 +1,184 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title><%= title %></title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<head>
+  <meta charset="utf-8">
+  <title><%= title %></title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2AB0C6">
-    <meta name="theme-color" content="#FFFFFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2AB0C6">
+  <meta name="theme-color" content="#FFFFFF">
 
-    <meta property="og:title" content="Philly Guide">
-    <meta property="og:description" content="An interactive guide to Philadelphia neighborhoods featuring crime, education, and walk score datasets.">
-    <meta property="og:url" content="https://philly-guide.herokuapp.com/">
-    <meta property="og:image" content="https://philly-guide.herokuapp.com/og.png">
+  <meta property="og:title" content="Philly Guide">
+  <meta property="og:description" content="An interactive guide to Philadelphia neighborhoods featuring crime, education, and walk score datasets.">
+  <meta property="og:url" content="https://philly-guide.herokuapp.com/">
+  <meta property="og:image" content="https://philly-guide.herokuapp.com/og.png">
 
-    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js"></script>
-    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js"></script>
+  <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css" rel="stylesheet">
 
-    <link href="/stylesheets/style.css" rel="stylesheet">
-  </head>
-  <body>
-    <div class="container">
-      <div class="sidebar">
-        <img src="logo.svg" alt="logo" class="logo">
-        <h1><%= title %></h1>
-        <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
-      </div>
+  <link href="/stylesheets/style.css" rel="stylesheet">
 
-      <div class="map">
-        <div id="map"></div>
-      </div>
-    </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <img src="logo.svg" alt="logo" class="logo">
+      <h1><%= title %></h1>
+      <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
 
-    <script type="text/javascript">
-      mapboxgl.accessToken = 'pk.eyJ1IjoiYWdyYXZlcyIsImEiOiJjaXR0ajNxb3kwMDJjMnRudnZiNXM4a2dyIn0.Mn-5UfKLdqtewXmk9P4gyA';
-      var map = new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/agraves/cj9dbpixh61632rn29p4lyqov',
-          center: [-75.156117, 39.977890],
-          zoom: 11,
-          minZoom: 10
+      <form method="GET" id="t1" name="table1" action="/education">
+        <select id = "order_school" name="metric">
+          <option value="desc">Top</option>
+          <option value="asc">Worst</option>
+        </select> 
+        <input name ="education_num" id = "rows_school" type="text" size = 3 value="10"> neighborhood(s) for education stats on
+        <select id = "selected_school" name="educ_type">
+          <option value="graduation_rate">graduation rate</option>
+          <option value="keystone_proficiency_rate">Keystone Test proficiency rate</option>
+          <option value="most_positive_student_college_readiness_rating">student college readiness rating</option>
+        </select>
+        <input id = "bt_school" value="GO!" type="submit">
+      </form>
+
+      <br><br>
+
+      <form method="GET"  name="table2" action="/crime">
+       <input name ="num_rows" id="rows_crime" type="text" size = 3 value="10"> of neighborhoods with 
+       <select name="ordering" id = "order_crime">
+         <option value="DESC">most</option>
+         <option value="ASC">least</option>
+       </select>
+       <select id = "selected_crime" name="crime_type">
+        <option value="Aggravated Assault Firearm">Aggravated Assault Firearm</option>
+        <option value="Aggravated Assault No Firearm">Aggravated Assault No Firearm</option>
+        <option value="All Other Offenses">All Other Offenses</option>
+        <option value="Arson">Arson</option>
+        <option value="Burglary Non-Residential">Burglary Non-Residential</option>
+        <option value="Burglary Residential">Burglary Residential</option>
+        <option value="Disorderly Conduct">Disorderly Conduct</option>
+        <option value="DRIVING UNDER THE INFLUENCE">DRIVING UNDER THE INFLUENCE</option>
+        <option value="Embezzlement">Embezzlement</option>
+        <option value="Forgery and Counterfeiting">Forgery and Counterfeiting</option>
+        <option value="Gambling Violations">Gambling Violations</option>
+        <option value="Homicide - Criminal">Homicide - Criminal</option>
+        <option value="Homicide - Gross Negligence">Homicide - Gross Negligence</option>
+        <option value="Homicide - Justifiable">Homicide - Justifiable</option>
+        <option value="Liquor Law Violations">Liquor Law Violations</option>
+        <option value="Motor Vehicle Theft">Motor Vehicle Theft</option>
+        <option value="Narcotic / Drug Law Violations">Narcotic/Drug Law Violations</option>
+        <option value="Offenses Against Family and Children">Offenses Against Family and Children</option>
+        <option value="Other Assaults">Other Assaults</option>
+        <option value="Other Sex Offenses (Not Commercialized)">Other Sex Offenses (Not Commercialized)</option>
+        <option value="Prostitution and Commercialized Vice">Prostitution and Commercialized Vice</option>
+        <option value="Public Drunkenness">Public Drunkenness</option>
+        <option value="Rape">Rape</option>
+        <option value="Receiving Stolen Property">Receiving Stolen Property</option>
+        <option value="Recovered Stolen Motor Vehicle">Recovered Stolen Motor Vehicle</option>
+        <option value="Robbery Firearm">Robbery Firearm</option>
+        <option value="Robbery No Firearm">Robbery No Firearm</option>
+        <option value="Theft from Vehicle">Theft from Vehicle</option>
+        <option value="Thefts">Thefts</option>
+        <option value="Vagrancy/Loitering">Vagrancy/Loitering</option>
+        <option value="Vandalism/Criminal Mischief">Vandalism/Criminal Mischief</option>
+        <option value="Weapon Violations">Weapon Violations</option>
+      </select>
+      crime
+      <input id = "bt_crime" value="GO!" type="submit">
+    </form>
+    <br><br>
+
+    Show all neighborhood data on
+    <form method="GET" id = "t" name="table" action="/all">
+      <select>
+        <option value="crimes">crimes</option>
+        <option value="schools">schools</option>
+        
+        <!--<option value="walkscore">walkscore</option>-->
+      </select>
+      <input id = "bt" type="submit">
+    </form>
+
+    <br><br>
+
+    <form method="GET" action="/walkscore">
+      <input name ="walkscore" type="text" size = 3 value="10"> neighborhood(s) for walkscore between
+      <input name ="w_min" type="text" size = 3 value="0"> and <input name ="w_max" type="text" size = 3 value="100">
+      <input type="submit" value="GO!">
+    </form>
+
+    <br><br>
+
+  </div>
+
+  <div class="map">
+    <div id="map"></div>
+  </div>
+</div>
+
+<!--SCRIPTS -->
+<!-- get data for all neighborhood data form -->
+<script type="text/javascript">
+  $(function() {
+    $('#bt').on("touchstart click", function(event) {
+      var menu_item = $('#t').find(":selected").val();
+      $.get('/all?table=' + menu_item, function(res){
+        ////// MAPBOX PARSING HERE OF RES //////
+        console.log(res);
       });
+      return false;
+    });
+  });
+</script>
+
+<!-- get data for all crime data form -->
+<script type="text/javascript">
+  $(function() {
+    // http://localhost:3000/crime?num_rows=10&ordering=ASC&crime_type=Disorderly+Conduct
+    $('#bt_crime').on("touchstart click", function(event) {
+      var crime = $('#selected_crime').find(":selected").val();
+      var rows = $('#rows_crime').val();
+      var ord = $('#order_crime').find(":selected").val();
+
+      $.get('/crime?num_rows=' + rows + '&ordering=' + ord + '&crime_type=' + crime, function(res){
+         ////// MAPBOX PARSING HERE OF RES //////
+        console.log(res);
+      });
+      return false;
+    });
+  });
+</script>
+
+<!-- get data for all school data form -->
+<script type="text/javascript">
+  $(function() {
+    // http://localhost:3000/education?metric=desc&education_num=10&educ_type=graduation_rate
+    $('#bt_school').on("touchstart click", function(event) {
+      var school = $('#selected_school').find(":selected").val();
+      var rows = $('#rows_school').val();
+      var ord = $('#order_school').find(":selected").val();
+      $.get('/education?metric=' + ord + '&education_num=' + rows + '&educ_type=' + school, function(res){
+         ////// MAPBOX PARSING HERE OF RES //////
+        console.log(res);
+      });
+      return false;
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  mapboxgl.accessToken = 'pk.eyJ1IjoiYWdyYXZlcyIsImEiOiJjaXR0ajNxb3kwMDJjMnRudnZiNXM4a2dyIn0.Mn-5UfKLdqtewXmk9P4gyA';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/agraves/cj9dbpixh61632rn29p4lyqov',
+    center: [-75.156117, 39.977890],
+    zoom: 11,
+    minZoom: 10
+  });
 
       // load neighborhoods layer
       map.on('load', function() {
@@ -75,4 +210,4 @@
       });
     </script>
   </body>
-</html>
+  </html>
