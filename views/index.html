@@ -17,12 +17,10 @@
   <meta property="og:url" content="https://philly-guide.herokuapp.com/">
   <meta property="og:image" content="https://philly-guide.herokuapp.com/og.png">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js"></script>
   <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css" rel="stylesheet">
-
   <link href="/stylesheets/style.css" rel="stylesheet">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -126,73 +124,6 @@
   </div>
 </div>
 
-<!--SCRIPTS -->
-<!-- get data for all neighborhood data form -->
-<script type="text/javascript">
-  $(function() {
-    $('#bt').on("touchstart click", function(event) {
-      var menu_item = $('#t').find(":selected").val();
-      $.get('/all?table=' + menu_item, function(res){
-        ////// MAPBOX PARSING HERE OF RES //////
-        console.log(res);
-      });
-      return false;
-    });
-  });
-</script>
-
-<!-- get data for all crime data form -->
-<script type="text/javascript">
-  $(function() {
-    // http://localhost:3000/crime?num_rows=10&ordering=ASC&crime_type=Disorderly+Conduct
-    $('#bt_crime').on("touchstart click", function(event) {
-      var crime = $('#selected_crime').find(":selected").val();
-      var rows = $('#rows_crime').val();
-      var ord = $('#order_crime').find(":selected").val();
-
-      $.get('/crime?num_rows=' + rows + '&ordering=' + ord + '&crime_type=' + crime, function(res){
-         ////// MAPBOX PARSING HERE OF RES //////
-        console.log(res);
-      });
-      return false;
-    });
-  });
-</script>
-
-<!-- get data for all school data form -->
-<script type="text/javascript">
-  $(function() {
-    // http://localhost:3000/education?metric=desc&education_num=10&educ_type=graduation_rate
-    $('#bt_school').on("touchstart click", function(event) {
-      var school = $('#selected_school').find(":selected").val();
-      var rows = $('#rows_school').val();
-      var ord = $('#order_school').find(":selected").val();
-      $.get('/education?metric=' + ord + '&education_num=' + rows + '&educ_type=' + school, function(res){
-         ////// MAPBOX PARSING HERE OF RES //////
-        console.log(res);
-      });
-      return false;
-    });
-  });
-</script>
-
-<!-- get data for all walkscore data form -->
-<script type="text/javascript">
-  $(function() {
-    // http://localhost:3000/walkscore?walkscore=10&w_min=50&w_max=78
-    $('#bt_walk').on("touchstart click", function(event) {
-      var neighborhoods = $('#num_neighborhoods').val();
-      var from = $('#from').val();
-      var to = $('#to').val();
-      $.get('/walkscore?walkscore=' + neighborhoods + '&w_min=' + from + '&w_max=' + to, function(res){
-         ////// MAPBOX PARSING HERE OF RES //////
-        console.log(res);
-      });
-      return false;
-    });
-  });
-</script>
-
 <script type="text/javascript">
   mapboxgl.accessToken = 'pk.eyJ1IjoiYWdyYXZlcyIsImEiOiJjaXR0ajNxb3kwMDJjMnRudnZiNXM4a2dyIn0.Mn-5UfKLdqtewXmk9P4gyA';
   var map = new mapboxgl.Map({
@@ -203,36 +134,146 @@
     minZoom: 10
   });
 
-  $.getJSON('/js/neighborhoods.geojson').done(function(json) {
-    var data = json;
-    // adjust data.features as necessary
+  // populate map
+  map.on('load', function() {
+    map.addSource('data', {
+      type: 'geojson',
+      data: '../js/neighborhoods.geojson'
+    });
 
-    // load neighborhoods layer
-    map.on('load', function() {
-      map.addSource('data', {
-        type: 'geojson',
-        data: data
-      });
+    map.addLayer({
+      "id": "neighborhoods",
+      "type": "fill",
+      "source": "data",
+      "paint": {
+        "fill-color": "#2AB0C6",
+        "fill-opacity": 0.5
+      }
+    });
+    // add lines to define the boundaries
+    map.addLayer({
+      "id": "neighborhood-lines",
+      "type": "line",
+      "source": "data",
+      "paint": {
+        "line-color": "#2AB0C6",
+        "line-width": 1.5
+      }
+    })
+  });
 
-      map.addLayer({
-        "id": "neighborhoods",
-        "type": "fill",
-        "source": "data",
-        "paint": {
-          "fill-color": "#2AB0C6",
-          "fill-opacity": 0.5
-        }
+  // get all neighborhoods data form
+  $(function() {
+    $('#bt').on("touchstart click", function(event) {
+      var menu_item = $('#t').find(":selected").val();
+      $.get('/all?table=' + menu_item, function(res){
+        ////// MAPBOX PARSING HERE OF RES //////
+        console.log(res);
       });
-      // add lines to define the boundaries
-      map.addLayer({
-        "id": "neighborhood-lines",
-        "type": "line",
-        "source": "data",
-        "paint": {
-          "line-color": "#2AB0C6",
-          "line-width": 1.5
+      return false;
+    });
+  });
+
+  // get all crimes data form
+  $(function() {
+    $('#bt_crime').on("touchstart click", function(event) {
+      var crime = $('#selected_crime').find(":selected").val();
+      var rows = $('#rows_crime').val();
+      var ord = $('#order_crime').find(":selected").val();
+
+      $.get('/crime?num_rows=' + rows + '&ordering=' + ord + '&crime_type=' + crime, function(res) {
+        // get ids of neighborhoods to include
+        ids = []
+        for (var i in res) {
+          ids.push(res[i].id - 1);
         }
-      })
+
+        // get neighborhoods geoJSON and filter by results
+        $.getJSON('/js/neighborhoods.geojson').done(function(json) {
+          features = [];
+          for (var i in json.features) {
+            i = parseInt(i);
+            if (ids.includes(i)) {
+              features.push(json.features[i]);
+            }
+          }
+
+          // update features on map
+          json.features = features;
+          map.getSource('data').setData(json);
+        });
+
+        console.log(res);
+      });
+      return false;
+    });
+  });
+
+  // get all school data form
+  $(function() {
+    $('#bt_school').on("touchstart click", function(event) {
+      var school = $('#selected_school').find(":selected").val();
+      var rows = $('#rows_school').val();
+      var ord = $('#order_school').find(":selected").val();
+      $.get('/education?metric=' + ord + '&education_num=' + rows + '&educ_type=' + school, function(res) {
+        // get ids of neighborhoods to include
+        ids = []
+        for (var i in res) {
+          ids.push(res[i].id - 1);
+        }
+
+        // get neighborhoods geoJSON and filter by results
+        $.getJSON('/js/neighborhoods.geojson').done(function(json) {
+          features = [];
+          for (var i in json.features) {
+            i = parseInt(i);
+            if (ids.includes(i)) {
+              features.push(json.features[i]);
+            }
+          }
+
+          // update features on map
+          json.features = features;
+          map.getSource('data').setData(json);
+        });
+
+        console.log(res);
+      });
+      return false;
+    });
+  });
+
+  // get all walkscore data form
+  $(function() {
+    $('#bt_walk').on("touchstart click", function(event) {
+      var neighborhoods = $('#num_neighborhoods').val();
+      var from = $('#from').val();
+      var to = $('#to').val();
+      $.get('/walkscore?walkscore=' + neighborhoods + '&w_min=' + from + '&w_max=' + to, function(res) {
+        // get ids of neighborhoods to include
+        ids = []
+        for (var i in res) {
+          ids.push(res[i].id - 1);
+        }
+
+        // get neighborhoods geoJSON and filter by results
+        $.getJSON('/js/neighborhoods.geojson').done(function(json) {
+          features = [];
+          for (var i in json.features) {
+            i = parseInt(i);
+            if (ids.includes(i)) {
+              features.push(json.features[i]);
+            }
+          }
+
+          // update features on map
+          json.features = features;
+          map.getSource('data').setData(json);
+        });
+
+        console.log(res);
+      });
+      return false;
     });
   });
 </script>
