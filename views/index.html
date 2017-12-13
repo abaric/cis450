@@ -109,11 +109,12 @@
 
     <br> <br>
 
-    <form method="GET" action="/walkscore">
-      <input name ="walkscore" type="text" size = 3 value="10"> neighborhood(s) for walkscore from
-      <input name ="w_min" type="text" size = 3 value="0"> to <input name ="w_max" type="text" size = 3 value="100">
-      <br> 
-      <input class="button" type="submit" value="GO!">
+
+
+    <form method="GET" id="t3" action="/walkscore">
+      <input name ="walkscore" id="num_neighborhoods" type="text" size = 3 value="10"> neighborhood(s) for walkscore between
+      <input name ="w_min" id="from" type="text" size = 3 value="0"> and <input name ="w_max" id="to" type="text" size = 3 value="100">
+      <input id="bt_walk" type="submit" value="GO!">
     </form>
 
     <br><br>
@@ -175,6 +176,23 @@
   });
 </script>
 
+<!-- get data for all walkscore data form -->
+<script type="text/javascript">
+  $(function() {
+    // http://localhost:3000/walkscore?walkscore=10&w_min=50&w_max=78
+    $('#bt_walk').on("touchstart click", function(event) {
+      var neighborhoods = $('#num_neighborhoods').val();
+      var from = $('#from').val();
+      var to = $('#to').val();
+      $.get('/walkscore?walkscore=' + neighborhoods + '&w_min=' + from + '&w_max=' + to, function(res){
+         ////// MAPBOX PARSING HERE OF RES //////
+        console.log(res);
+      });
+      return false;
+    });
+  });
+</script>
+
 <script type="text/javascript">
   mapboxgl.accessToken = 'pk.eyJ1IjoiYWdyYXZlcyIsImEiOiJjaXR0ajNxb3kwMDJjMnRudnZiNXM4a2dyIn0.Mn-5UfKLdqtewXmk9P4gyA';
   var map = new mapboxgl.Map({
@@ -191,7 +209,6 @@
           type: 'geojson',
           data: '/js/neighborhoods.geojson'
         });
-
         map.addLayer({
           "id": "neighborhoods",
           "type": "fill",
@@ -201,7 +218,6 @@
             "fill-opacity": 0.5
           }
         });
-
         // add lines to define the boundaries
         map.addLayer({
           "id": "neighborhood-lines",
