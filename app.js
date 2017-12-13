@@ -28,11 +28,11 @@ app.use('/education', index);
 app.use('/users', users);
 
 var connection = mysql.createConnection({
-	host     : "rds-philly-guide.cww85eefiukb.us-east-1.rds.amazonaws.com",
-	user     : "guest",
-	password : "cis450guest",
-	port     : "3306",
-	database:  "phillyguide"
+ host     : "rds-philly-guide.cww85eefiukb.us-east-1.rds.amazonaws.com",
+ user     : "guest",
+ password : "cis450guest",
+ port     : "3306",
+ database:  "phillyguide"
 });
 
 
@@ -55,3 +55,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
