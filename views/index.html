@@ -253,7 +253,7 @@
         // get ids of neighborhoods to include
         ids = []
         for (var i in res) {
-          ids.push(res[i].id - 1);
+          ids.push(res[i]._id - 1);
         }
 
         // get neighborhoods geoJSON and filter by results
