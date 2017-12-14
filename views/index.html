@@ -156,6 +156,25 @@
     })
   });
 
+  // Create a popup, but don't add it to the map yet.
+  var popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false
+  });
+  map.on('mouseenter', 'neighborhoods', function(e) {
+      // Change the cursor style as a UI indicator.
+      map.getCanvas().style.cursor = 'pointer';
+      // Populate the popup and set its coordinates
+      // based on the feature found.
+      popup.setLngLat(e.lngLat)
+          .setHTML("<p>TODO: Will query data/description of the neighborhood based on coordinates</p>")
+          .addTo(map);
+  });
+  map.on('mouseleave', 'neighborhoods', function() {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+  });
+
   // get all neighborhoods data form
   $(function() {
     $('#bt').on("touchstart click", function(event) {
