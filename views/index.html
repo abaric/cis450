@@ -161,7 +161,7 @@
       closeButton: false,
       closeOnClick: false
   });
-  map.on('mouseenter', 'neighborhoods', function(e) {
+  map.on('mousemove', 'neighborhoods', function(e) {
       // Change the cursor style as a UI indicator.
       map.getCanvas().style.cursor = 'pointer';
       // Populate the popup and set its coordinates
@@ -171,6 +171,10 @@
           .addTo(map);
   });
   map.on('mouseleave', 'neighborhoods', function() {
+      map.getCanvas().style.cursor = '';
+      popup.remove();
+  });
+  map.on('mouseover', 'neighborhood-lines', function(e) {
       map.getCanvas().style.cursor = '';
       popup.remove();
   });
