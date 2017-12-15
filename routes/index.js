@@ -36,6 +36,8 @@ var connection = mysql.createConnection({
   database:  "phillyguide"
 });
 
+var neighborhoods_max = 158;
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Philly Guide'});
@@ -152,6 +154,15 @@ router.get('/education', function(req, res, next) {
 	console.log(field + "FIELD");
 	console.log(num_rows + "numROWS");
 	console.log(m + "metric");
+
+	//handling illegal input
+	if (num_rows < 1) {
+		num_rows = 1;
+	}
+
+	else if (num_rows > 158) {
+		num_rows = 158;
+	}
 
 	connection.query("SELECT n.name, n.id, AVG(s." + field + ") as category FROM neighborhoods n, located_in l, schools s WHERE n.id = l.neighborhood_id AND s.id = l.school_id GROUP by n.id ORDER BY category " + m + " LIMIT " + num_rows, function(err, rows, fields) {
 		if (err) {
