@@ -150,15 +150,6 @@
       }
     })
 
-    // Default stats 
-    $.get('/crimes-all', function(res) {
-      console.log(res);
-      for (const x in res) {
-        popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
-      }
-      console.log(popup_data);
-    });
-
   });
 
 
