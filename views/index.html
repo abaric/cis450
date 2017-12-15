@@ -54,7 +54,7 @@
         </select>
         incidents of
         <select id="selected_crime" name="crime_type">
-          <option value="ALL">All Crimes</option>
+          <option value="%">All Crimes</option>
           <option value="Aggravated Assault Firearm">Aggravated Assault (Firearm)</option>
           <option value="Aggravated Assault No Firearm">Aggravated Assault (No Firearm)</option>
           <option value="All Other Offenses">All Other Offenses</option>
@@ -149,139 +149,45 @@
         "line-width": 1.5
       }
     })
-
-    // Default stats 
-    $.get('/crimes-all?rows=200&ordering=DESC', function(res) {
-      console.log(res);
-      for (const x in res) {
-        popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
-      }
-      console.log(popup_data);
-    });
-
   });
-
 
   // Create a popup, but don't add it to the map yet.
   var popup = new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false
+    closeButton: false,
+    closeOnClick: false
   });
+
   map.on('mousemove', 'neighborhoods', function(e) {
-      // Change the cursor style as a UI indicator.
-      map.getCanvas().style.cursor = 'pointer';
-      // Populate the popup and set its coordinates
-      // based on the feature found.
-      var result = "";
-      if (e) {
-        var name = e.features[0].properties.listname;
-        // Correct name mismatches between geojson and csv files 
-        if (name == "Northeast Phila Airport") {
-          name = "Northeast Airport";
-        }
-        else if (name == "Germantown, West Central") {
-          name = "Germantown West Cent";
-        }
-        else if (name == "Aston-Woodbridge") {
-          name = "Aston Woodbridge";
-        }
-        else if (name == "Kensington, West") {
-          name = "West Kensington";
-        }
-        else if (name == "Kensington, Old") {
-          name = "Old Kensington";
-        }
-        else if (name.startsWith("McG")) {
-          name = "Mcguire";
-        }
-        else if (name.startsWith("Fishtown")) {
-          name = "Fishtown";
-        }
-        else if (name.startsWith("Wash")) {
-          name = "Washington Square";
-        }
-        else if (name.startsWith("Center")) {
-          name = "Center City";
-        }
-        console.log(name);
-        var name_no_commas = name.replace(",", "");
-        result = popup_data[name_no_commas];
-      }
-      if (result === undefined) {
-        popup.setLngLat(e.lngLat)
-            .setHTML("<p> <b>" + name + "</b> <br />" + "(No data for this neighborhood)" + "</p>")
-            .addTo(map);
-      }
-      else {
-        popup.setLngLat(e.lngLat)
-            .setHTML("<p> <b>" + name + "</b> <br />" + `${result.amount}` + "</p>")
-            .addTo(map);
-      }
-        
-      console.log(result);
+    // Change the cursor style as a UI indicator.
+    map.getCanvas().style.cursor = 'pointer';
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    var result = '';
+    if (e) {
+      var name = e.features[0].properties.listname.replace(",", "");
+      result = popup_data[name];
+    }
+
+    // add popups
+    if (result === undefined) {
+      popup.setLngLat(e.lngLat)
+        .setHTML('<b>' + name + '</b> <br>' + 'Select some options to see data!')
+        .addTo(map);
+    } else {
+      popup.setLngLat(e.lngLat)
+        .setHTML('<b>' + name + '</b> <br>' + result.amount + result.type)
+        .addTo(map);
+    }
   });
+
   map.on('mouseleave', 'neighborhoods', function() {
-      map.getCanvas().style.cursor = '';
-      popup.remove();
+    map.getCanvas().style.cursor = '';
+    popup.remove();
   });
+
   map.on('mouseover', 'neighborhood-lines', function(e) {
-      map.getCanvas().style.cursor = '';
-      popup.remove();
-  });
-
-  // get all neighborhoods data form
-  $(function() {
-    $('#bt').on("touchstart click", function(event) {
-      var menu_item = $('#t').find(":selected").val();
-      console.log(menu_item);
-      popup_data = new Object();
-      if (menu_item == 'crimes') {
-        $.get('/crimes-all?rows=200&ordering=DESC', function(res) {
-          console.log(res);
-          for (const x in res) {
-            popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
-          }
-          console.log(popup_data);
-        });
-      }
-      else if (menu_item == 'schools') {
-        $.get('/education-all', function(res) {
-          console.log(res);
-          for (const x in res) {
-            popup_data[res[x].name] = {id: res[x].id, amount: res[x].category};
-          }
-          console.log(popup_data);
-        });
-      }
-      else if (menu_item == "walkscore") {
-        $.get('/walkscore-all', function(res) {
-          console.log(res);
-          for (const x in res) {
-            $.get('/neighborhood?id=' + res[x]._id, function(name_res) {
-              popup_data[name_res[0].name] = {id: res[x]._id, amount: res[x].walkscore};
-            });
-          }
-          console.log(popup_data);
-        });
-      }
-      else {
-        console.log("Error! Invalid menu item!");
-      }
-      // not really sure how we're supposed to be displaying this data in mapbox
-      //console.log(res);
-      // get neighborhoods geoJSON and filter by results
-      $.getJSON('/js/neighborhoods.geojson').done(function(json) {
-        features = [];
-        for (var i in json.features) {
-          features.push(json.features[i]);
-        }
-
-        // update features on map
-        json.features = features;
-        map.getSource('data').setData(json);
-      });
-      return false;
-    });
+    map.getCanvas().style.cursor = '';
+    popup.remove();
   });
 
   // get all crimes data form
@@ -291,68 +197,40 @@
       var rows = $('#rows_crime').val();
       var ord = $('#order_crime').find(":selected").val();
       popup_data = new Object();
-      if (crime == "ALL") {
-        $.get('/crimes-all?rows=' + rows + '&ordering=' + ord, function(res) {
-          // get ids of neighborhoods to include
-          console.log(res);
-          ids = [];
-          for (var i in res) {
-            ids.push(res[i].id - 1);
-          }
+      $.get('/crime?num_rows=' + rows + '&ordering=' + ord + '&crime_type=' + crime, function(res) {
+        // get ids of neighborhoods to include
+        ids = [];
+        for (var i in res) {
+          ids.push(res[i].id - 1);
+        }
 
-          // get neighborhoods geoJSON and filter by results
-          $.getJSON('/js/neighborhoods.geojson').done(function(json) {
-            features = [];
-            for (var i in json.features) {
-              i = parseInt(i);
-              if (ids.includes(i)) {
-                features.push(json.features[i]);
-              }
+        // get neighborhoods geoJSON and filter by results
+        $.getJSON('/js/neighborhoods.geojson').done(function(json) {
+          features = [];
+          for (var i in json.features) {
+            i = parseInt(i);
+            if (ids.includes(i)) {
+              features.push(json.features[i]);
             }
-
-            // update features on map
-            json.features = features;
-            map.getSource('data').setData(json);
-          });
-
-          console.log(res);
-          for (const x in res) {
-            popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
           }
-          console.log(popup_data);
+
+          // update features on map
+          json.features = features;
+          map.getSource('data').setData(json);
         });
-      }
-      else {
-        $.get('/crime?num_rows=' + rows + '&ordering=' + ord + '&crime_type=' + crime, function(res) {
-          // get ids of neighborhoods to include
-          console.log(res);
-          ids = [];
-          for (var i in res) {
-            ids.push(res[i].id - 1);
-          }
 
-          // get neighborhoods geoJSON and filter by results
-          $.getJSON('/js/neighborhoods.geojson').done(function(json) {
-            features = [];
-            for (var i in json.features) {
-              i = parseInt(i);
-              if (ids.includes(i)) {
-                features.push(json.features[i]);
-              }
-            }
+        // get crime type
+        var type = crime;
+        if (type == '%') {
+          type = ' total incidents';
+        } else {
+          type = ' incidents of ' + type.toLowerCase();
+        }
 
-            // update features on map
-            json.features = features;
-            map.getSource('data').setData(json);
-          });
-
-          console.log(res);
-          for (const x in res) {
-            popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
-          }
-          console.log(popup_data);
-        });
-      }
+        for (var i in res) {
+          popup_data[res[i].name] = {id: res[i].id, amount: res[i].crimes, type: type};
+        }
+      });
       return false;
     });
   });
@@ -386,11 +264,11 @@
           map.getSource('data').setData(json);
         });
 
-        console.log(res);
-        for (const x in res) {
-          popup_data[res[x].name] = {id: res[x].id, amount: res[x].category};
+        // get styled type from selector
+        var type = $('#selected_school').find(":selected").text();
+        for (var i in res) {
+          popup_data[res[i].name] = {id: res[i].id, amount: res[i].category, type: '% ' + type};
         }
-        console.log(popup_data);
       });
       return false;
     });
@@ -425,13 +303,11 @@
           map.getSource('data').setData(json);
         });
 
-        console.log(res);
-        for (const x in res) {
-          $.get('/neighborhood?id=' + res[x]._id, function(name_res) {
-            popup_data[name_res[0].name] = {id: res[x]._id, amount: res[x].walkscore};
+        for (var i in res) {
+          $.get('/neighborhood?id=' + res[i]._id, function(name_res) {
+            popup_data[name_res[0].name] = {id: res[i]._id, amount: res[i].walkscore, type: ' walkscore rating'};
           });
         }
-        console.log(popup_data);
       });
       return false;
     });

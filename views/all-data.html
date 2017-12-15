@@ -51,9 +51,11 @@
       $('#submit-all').on('touchstart click', function(event) {
         var menu_item = $('#all-form').find(':selected').val();
         $('#results').empty();
+
+        // handle different items differently
         switch (menu_item) {
           case 'crimes':
-            $.get('/crimes-full?field=name', function(res) {
+            $.get('/crimes-all', function(res) {
               $('#results').append('<p>Neighborhood (Total Number of Crime Incidents)</p>');
               for (var i in res) {
                 $('#results').append('<p>' + res[i].name + ' (' + res[i].crimes + ' incidents)</p>');
