@@ -36,7 +36,8 @@
           <option value="desc">Best</option>
           <option value="asc">Worst</option>
         </select>
-        <input name="education_num" id="rows_school" type="text" size=3 value="10"> for
+        <input name="education_num" id="rows_school" type="text" size=3 value="10">
+        for
         <select id="selected_school" name="educ_type">
           <option value="graduation_rate">graduation rate</option>
           <option value="keystone_proficiency_rate">Keystone Test proficiency rate</option>
@@ -145,7 +146,7 @@
         "line-color": "#0F3F46",
         "line-width": 1.5
       }
-    })
+    });
   });
 
   // get all crimes data form
@@ -176,8 +177,6 @@
           json.features = features;
           map.getSource('data').setData(json);
         });
-
-        console.log(res);
       });
       return false;
     });
@@ -210,8 +209,6 @@
           json.features = features;
           map.getSource('data').setData(json);
         });
-
-        console.log(res);
       });
       return false;
     });
@@ -244,8 +241,6 @@
           json.features = features;
           map.getSource('data').setData(json);
         });
-
-        console.log(res);
       });
       return false;
     });

@@ -14,7 +14,7 @@
 
   <meta property="og:title" content="Philly Guide">
   <meta property="og:description" content="An interactive guide to Philadelphia neighborhoods featuring crime, education, and walk score datasets.">
-  <meta property="og:url" content="https://philly-guide.herokuapp.com/">
+  <meta property="og:url" content="https://philly-guide.herokuapp.com/all-data/">
   <meta property="og:image" content="https://philly-guide.herokuapp.com/og.png">
   <link href="/stylesheets/style.css" rel="stylesheet">
 
@@ -39,6 +39,10 @@
         <input class="button" id="submit-all" type="submit" value="SEARCH ALL">
       </form>
     </div>
+
+    <div class="list">
+      <div id="results"></div>
+    </div>
   </div>
 
   <script type="text/javascript">
@@ -46,13 +50,40 @@
     $(function() {
       $('#submit-all').on('touchstart click', function(event) {
         var menu_item = $('#all-form').find(':selected').val();
-        if (menu_item == 'walkscore' || menu_item == 'crimes') {
-          console.log('endpoint not yet implemented');
-        } else {
-          $.get('/all?table=' + menu_item, function(res){
-            // list view
-            console.log(res);
-          });
+        $('#results').empty();
+        switch (menu_item) {
+          case 'crimes':
+            $.get('/crimes-all?field=name', function(res) {
+              $('#results').append('<p>Neighborhood (Total Number of Crime Incidents)</p>');
+              for (var i in res) {
+                $('#results').append('<p>' + res[i].name + ' (' + res[i].crimes + ' incidents)</p>');
+              }
+            });
+            break;
+
+          case 'schools':
+            $.get('/all?table=' + menu_item, function(res) {
+              $('#results').append('<p>School Name (Graduation Rate, Keystone Exam Proficiency Rate, Rate of \'Most Positive\' College Readiness Responses)</p>');
+              for (var i in res) {
+                $('#results').append('<p>' + res[i].name + ' (' + res[i].graduation_rate + '%, ' + res[i].keystone_proficiency_rate + '%, ' + res[i].most_positive_student_college_readiness_rating + '%)</p>');
+              }
+            });
+            break;
+
+          case 'walkscore':
+            $.get('/walkscore?walkscore=158&w_min=0&w_max=100', function(res) {
+              $('#results').append('<p>Neighborhood (Walkscore)</p>');
+              // get the names associated with the neighborhood ids
+              $.get('/all?table=neighborhoods', function(nRes) {
+                for (var i in res) {
+                  $('#results').append('<p>' + nRes[res[i]._id - 1].name + ' (' + res[i].walkscore + ')</p>');
+                }
+              });
+            });
+            break;
+
+          default:
+            return false;
         }
         return false;
       });
