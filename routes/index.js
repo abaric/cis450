@@ -127,21 +127,6 @@ router.get('/crime', function(req, res, next) {
 	});
 });
 
-/* GET crime data for neighborhood */
-router.get('/crimes-neighborhood', function(req, res, next) {
-	var id = req.query['id'];
-	var type = req.query['crime_type'];
-
-	connection.query('SELECT n.name, n.id, COUNT(h.crime_id) as crimes FROM neighborhoods n, happened_in h, crimes c WHERE n.id = ' + "'" + id + "'" + ' AND n.id = h.neighborhood_id AND c.id = h.crime_id AND c.type = ' + "'" + type + "'" + ' GROUP BY n.id ORDER BY crimes DESC', function(err, rows, fields) {
-		if (err) {
-			console.log(err);
-			res.send(500);
-		}
-		console.log('soln: ', JSON.parse(JSON.stringify(rows)));
-		res.json(JSON.parse(JSON.stringify(rows)));
-	});
-});
-
 /* GET crime data for all-data */
 router.get('/crimes-all', function(req, res, next) {
 	
