@@ -14,6 +14,8 @@
     "morgan": "~1.9.0",
     "serve-favicon": "~2.4.5",
     "aws-sdk": "latest",
-     "mysql": "latest"
+    "mysql": "latest",
+    "mongoose": "latest",
+    "mongo-round": "latest"
   }
 }

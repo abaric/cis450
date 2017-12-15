@@ -17,102 +17,88 @@
   <meta property="og:url" content="https://philly-guide.herokuapp.com/">
   <meta property="og:image" content="https://philly-guide.herokuapp.com/og.png">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js"></script>
   <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css" rel="stylesheet">
-
   <link href="/stylesheets/style.css" rel="stylesheet">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 </head>
 <body>
   <div class="container">
     <div class="sidebar">
-      <img src="logo.svg" alt="logo" class="logo">
+      <a href="./"><img src="logo.svg" alt="logo" class="logo"></a>
       <h1><%= title %></h1>
       <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
 
+      <h2>Search by neighborhoods</h2>
+
       <form method="GET" id="t1" name="table1" action="/education">
-        <select id = "order_school" name="metric">
-          <option value="desc">Top</option>
+        <select id="order_school" name="metric">
+          <option value="desc">Best</option>
           <option value="asc">Worst</option>
-        </select> 
-        <input name ="education_num" id = "rows_school" type="text" size = 3 value="10"> neighborhood(s) for education stats on
-        <select id = "selected_school" name="educ_type">
+        </select>
+        <input name="education_num" id="rows_school" type="text" size=3 value="10">
+        for
+        <select id="selected_school" name="educ_type">
           <option value="graduation_rate">graduation rate</option>
           <option value="keystone_proficiency_rate">Keystone Test proficiency rate</option>
           <option value="most_positive_student_college_readiness_rating">student college readiness rating</option>
         </select>
-        <input id = "bt_school" value="GO!" type="submit">
+        <input class="button" id="bt_school" value="SEARCH SCHOOLS" type="submit">
       </form>
 
-      <br><br>
-
-      <form method="GET"  name="table2" action="/crime">
-       <input name ="num_rows" id="rows_crime" type="text" size = 3 value="10"> of neighborhoods with 
-       <select name="ordering" id = "order_crime">
-         <option value="DESC">most</option>
-         <option value="ASC">least</option>
-       </select>
-       <select id = "selected_crime" name="crime_type">
-        <option value="Aggravated Assault Firearm">Aggravated Assault Firearm</option>
-        <option value="Aggravated Assault No Firearm">Aggravated Assault No Firearm</option>
-        <option value="All Other Offenses">All Other Offenses</option>
-        <option value="Arson">Arson</option>
-        <option value="Burglary Non-Residential">Burglary Non-Residential</option>
-        <option value="Burglary Residential">Burglary Residential</option>
-        <option value="Disorderly Conduct">Disorderly Conduct</option>
-        <option value="DRIVING UNDER THE INFLUENCE">DRIVING UNDER THE INFLUENCE</option>
-        <option value="Embezzlement">Embezzlement</option>
-        <option value="Forgery and Counterfeiting">Forgery and Counterfeiting</option>
-        <option value="Gambling Violations">Gambling Violations</option>
-        <option value="Homicide - Criminal">Homicide - Criminal</option>
-        <option value="Homicide - Gross Negligence">Homicide - Gross Negligence</option>
-        <option value="Homicide - Justifiable">Homicide - Justifiable</option>
-        <option value="Liquor Law Violations">Liquor Law Violations</option>
-        <option value="Motor Vehicle Theft">Motor Vehicle Theft</option>
-        <option value="Narcotic / Drug Law Violations">Narcotic/Drug Law Violations</option>
-        <option value="Offenses Against Family and Children">Offenses Against Family and Children</option>
-        <option value="Other Assaults">Other Assaults</option>
-        <option value="Other Sex Offenses (Not Commercialized)">Other Sex Offenses (Not Commercialized)</option>
-        <option value="Prostitution and Commercialized Vice">Prostitution and Commercialized Vice</option>
-        <option value="Public Drunkenness">Public Drunkenness</option>
-        <option value="Rape">Rape</option>
-        <option value="Receiving Stolen Property">Receiving Stolen Property</option>
-        <option value="Recovered Stolen Motor Vehicle">Recovered Stolen Motor Vehicle</option>
-        <option value="Robbery Firearm">Robbery Firearm</option>
-        <option value="Robbery No Firearm">Robbery No Firearm</option>
-        <option value="Theft from Vehicle">Theft from Vehicle</option>
-        <option value="Thefts">Thefts</option>
-        <option value="Vagrancy/Loitering">Vagrancy/Loitering</option>
-        <option value="Vandalism/Criminal Mischief">Vandalism/Criminal Mischief</option>
-        <option value="Weapon Violations">Weapon Violations</option>
-      </select>
-      crime
-      <input id = "bt_crime" value="GO!" type="submit">
-    </form>
-    <br><br>
-
-    Show all neighborhood data on
-    <form method="GET" id = "t" name="table" action="/all">
-      <select>
-        <option value="crimes">crimes</option>
-        <option value="schools">schools</option>
-        
-        <!--<option value="walkscore">walkscore</option>-->
-      </select>
-      <input id = "bt" type="submit">
-    </form>
-
-    <br><br>
+      <form method="GET" name="table2" action="/crime">
+        <input name ="num_rows" id="rows_crime" type="text" size=3 value="10"> with the
+        <select name="ordering" id="order_crime">
+           <option value="DESC">most</option>
+           <option value="ASC">fewest</option>
+        </select>
+        incidents of
+        <select id="selected_crime" name="crime_type">
+          <option value="%">All Crimes</option>
+          <option value="Aggravated Assault Firearm">Aggravated Assault (Firearm)</option>
+          <option value="Aggravated Assault No Firearm">Aggravated Assault (No Firearm)</option>
+          <option value="All Other Offenses">All Other Offenses</option>
+          <option value="Arson">Arson</option>
+          <option value="Burglary Non-Residential">Burglary (Non-Residential)</option>
+          <option value="Burglary Residential">Burglary (Residential)</option>
+          <option value="Disorderly Conduct">Disorderly Conduct</option>
+          <option value="DRIVING UNDER THE INFLUENCE">Driving Under the Influence</option>
+          <option value="Embezzlement">Embezzlement</option>
+          <option value="Forgery and Counterfeiting">Forgery and Counterfeiting</option>
+          <option value="Gambling Violations">Gambling Violations</option>
+          <option value="Homicide - Criminal">Homicide (Criminal)</option>
+          <option value="Homicide - Gross Negligence">Homicide (Gross Negligence)</option>
+          <option value="Homicide - Justifiable">Homicide (Justifiable)</option>
+          <option value="Liquor Law Violations">Liquor Law Violations</option>
+          <option value="Motor Vehicle Theft">Motor Vehicle Theft</option>
+          <option value="Narcotic / Drug Law Violations">Narcotic/Drug Law Violations</option>
+          <option value="Offenses Against Family and Children">Offenses Against Family and Children</option>
+          <option value="Other Assaults">Other Assaults</option>
+          <option value="Other Sex Offenses (Not Commercialized)">Other Sex Offenses (Not Commercialized)</option>
+          <option value="Prostitution and Commercialized Vice">Prostitution and Commercialized Vice</option>
+          <option value="Public Drunkenness">Public Drunkenness</option>
+          <option value="Rape">Rape</option>
+          <option value="Receiving Stolen Property">Receiving Stolen Property</option>
+          <option value="Recovered Stolen Motor Vehicle">Recovered Stolen Motor Vehicle</option>
+          <option value="Robbery Firearm">Robbery (Firearm)</option>
+          <option value="Robbery No Firearm">Robbery (No Firearm)</option>
+          <option value="Theft from Vehicle">Theft from Vehicle</option>
+          <option value="Thefts">Thefts</option>
+          <option value="Vagrancy/Loitering">Vagrancy/Loitering</option>
+          <option value="Vandalism/Criminal Mischief">Vandalism/Criminal Mischief</option>
+          <option value="Weapon Violations">Weapon Violations</option>
+        </select>
+        <input class="button" id="bt_crime" value="SEARCH CRIME" type="submit">
+      </form>
 
     <form method="GET" id="t3" action="/walkscore">
-      <input name ="walkscore" id="num_neighborhoods" type="text" size = 3 value="10"> neighborhood(s) for walkscore between
-      <input name ="w_min" id="from" type="text" size = 3 value="0"> and <input name ="w_max" id="to" type="text" size = 3 value="100">
-      <input id="bt_walk" type="submit" value="GO!">
+      Top
+      <input name="walkscore" id="num_neighborhoods" type="text" size=3 value="10"> with walkscore from
+      <input name="w_min" id="from" type="text" size=3 value="0"> to <input name ="w_max" id="to" type="text" size=3 value="100">
+      <input class="button" id="bt_walk" type="submit" value="SEARCH WALKSCORE">
     </form>
 
-    <br><br>
-
+    <a href="./all-data"><h2>See all data</h2></a>
   </div>
 
   <div class="map">
@@ -120,109 +106,212 @@
   </div>
 </div>
 
-<!--SCRIPTS -->
-<!-- get data for all neighborhood data form -->
 <script type="text/javascript">
-  $(function() {
-    $('#bt').on("touchstart click", function(event) {
-      var menu_item = $('#t').find(":selected").val();
-      $.get('/all?table=' + menu_item, function(res){
-        ////// MAPBOX PARSING HERE OF RES //////
-        console.log(res);
-      });
-      return false;
-    });
+  mapboxgl.accessToken = 'pk.eyJ1IjoiYWdyYXZlcyIsImEiOiJjaXR0ajNxb3kwMDJjMnRudnZiNXM4a2dyIn0.Mn-5UfKLdqtewXmk9P4gyA';
+  var popup_data = new Object();
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/agraves/cj9dbpixh61632rn29p4lyqov',
+    center: [-75.131117, 39.999890],
+    zoom: 10.7,
+    minZoom: 10
   });
-</script>
 
-<!-- get data for all crime data form -->
-<script type="text/javascript">
+  // if mobile, change zoom
+  if ($(window).width() < 480) {
+    map.setZoom(9.4);
+    map.setMinZoom(9);
+  }
+
+  // populate map
+  map.on('load', function() {
+    map.addSource('data', {
+      type: 'geojson',
+      data: '../js/neighborhoods.geojson'
+    });
+
+    map.addLayer({
+      "id": "neighborhoods",
+      "type": "fill",
+      "source": "data",
+      "paint": {
+        "fill-color": "#0F3F46",
+        "fill-opacity": 0.5
+      }
+    });
+    // add lines to define the boundaries
+    map.addLayer({
+      "id": "neighborhood-lines",
+      "type": "line",
+      "source": "data",
+      "paint": {
+        "line-color": "#0F3F46",
+        "line-width": 1.5
+      }
+    })
+  });
+
+  // Create a popup, but don't add it to the map yet.
+  var popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+  });
+
+  map.on('mousemove', 'neighborhoods', function(e) {
+    // Change the cursor style as a UI indicator.
+    map.getCanvas().style.cursor = 'pointer';
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    var result = '';
+    if (e) {
+      var name = e.features[0].properties.listname.replace(",", "");
+      result = popup_data[name];
+    }
+
+    // add popups
+    if (result === undefined) {
+      popup.setLngLat(e.lngLat)
+        .setHTML('<b>' + name + '</b> <br>' + 'Select some options to see data!')
+        .addTo(map);
+    } else {
+      popup.setLngLat(e.lngLat)
+        .setHTML('<b>' + name + '</b> <br>' + result.amount + result.type)
+        .addTo(map);
+    }
+  });
+
+  map.on('mouseleave', 'neighborhoods', function() {
+    map.getCanvas().style.cursor = '';
+    popup.remove();
+  });
+
+  map.on('mouseover', 'neighborhood-lines', function(e) {
+    map.getCanvas().style.cursor = '';
+    popup.remove();
+  });
+
+  // get all crimes data form
   $(function() {
-    // http://localhost:3000/crime?num_rows=10&ordering=ASC&crime_type=Disorderly+Conduct
     $('#bt_crime').on("touchstart click", function(event) {
       var crime = $('#selected_crime').find(":selected").val();
       var rows = $('#rows_crime').val();
       var ord = $('#order_crime').find(":selected").val();
+      popup_data = new Object();
+      $.get('/crime?num_rows=' + rows + '&ordering=' + ord + '&crime_type=' + crime, function(res) {
+        // get ids of neighborhoods to include
+        ids = [];
+        for (var i in res) {
+          ids.push(res[i].id - 1);
+        }
 
-      $.get('/crime?num_rows=' + rows + '&ordering=' + ord + '&crime_type=' + crime, function(res){
-         ////// MAPBOX PARSING HERE OF RES //////
-        console.log(res);
+        // get neighborhoods geoJSON and filter by results
+        $.getJSON('/js/neighborhoods.geojson').done(function(json) {
+          features = [];
+          for (var i in json.features) {
+            i = parseInt(i);
+            if (ids.includes(i)) {
+              features.push(json.features[i]);
+            }
+          }
+
+          // update features on map
+          json.features = features;
+          map.getSource('data').setData(json);
+        });
+
+        // get crime type
+        var type = crime;
+        if (type == '%') {
+          type = ' total incidents';
+        } else {
+          type = ' incidents of ' + type.toLowerCase();
+        }
+
+        for (var i in res) {
+          popup_data[res[i].name] = {id: res[i].id, amount: res[i].crimes, type: type};
+        }
       });
       return false;
     });
   });
-</script>
 
-<!-- get data for all school data form -->
-<script type="text/javascript">
+  // get all school data form
   $(function() {
-    // http://localhost:3000/education?metric=desc&education_num=10&educ_type=graduation_rate
     $('#bt_school').on("touchstart click", function(event) {
       var school = $('#selected_school').find(":selected").val();
       var rows = $('#rows_school').val();
       var ord = $('#order_school').find(":selected").val();
-      $.get('/education?metric=' + ord + '&education_num=' + rows + '&educ_type=' + school, function(res){
-         ////// MAPBOX PARSING HERE OF RES //////
-        console.log(res);
+      popup_data = new Object();
+      $.get('/education?metric=' + ord + '&education_num=' + rows + '&educ_type=' + school, function(res) {
+        // get ids of neighborhoods to include
+        ids = []
+        for (var i in res) {
+          ids.push(res[i].id - 1);
+        }
+
+        // get neighborhoods geoJSON and filter by results
+        $.getJSON('/js/neighborhoods.geojson').done(function(json) {
+          features = [];
+          for (var i in json.features) {
+            i = parseInt(i);
+            if (ids.includes(i)) {
+              features.push(json.features[i]);
+            }
+          }
+
+          // update features on map
+          json.features = features;
+          map.getSource('data').setData(json);
+        });
+
+        // get styled type from selector
+        var type = $('#selected_school').find(":selected").text();
+        for (var i in res) {
+          popup_data[res[i].name] = {id: res[i].id, amount: res[i].category, type: '% ' + type};
+        }
       });
       return false;
     });
   });
-</script>
 
-<!-- get data for all walkscore data form -->
-<script type="text/javascript">
+  // get all walkscore data form
   $(function() {
-    // http://localhost:3000/walkscore?walkscore=10&w_min=50&w_max=78
     $('#bt_walk').on("touchstart click", function(event) {
       var neighborhoods = $('#num_neighborhoods').val();
       var from = $('#from').val();
       var to = $('#to').val();
-      $.get('/walkscore?walkscore=' + neighborhoods + '&w_min=' + from + '&w_max=' + to, function(res){
-         ////// MAPBOX PARSING HERE OF RES //////
-        console.log(res);
+      popup_data = new Object();
+      $.get('/walkscore?walkscore=' + neighborhoods + '&w_min=' + from + '&w_max=' + to, function(res) {
+        // get ids of neighborhoods to include
+        ids = []
+        for (var i in res) {
+          ids.push(res[i]._id - 1);
+        }
+
+        // get neighborhoods geoJSON and filter by results
+        $.getJSON('/js/neighborhoods.geojson').done(function(json) {
+          features = [];
+          for (var i in json.features) {
+            i = parseInt(i);
+            if (ids.includes(i)) {
+              features.push(json.features[i]);
+            }
+          }
+
+          // update features on map
+          json.features = features;
+          map.getSource('data').setData(json);
+        });
+
+        for (var i in res) {
+          $.get('/neighborhood?id=' + res[i]._id, function(name_res) {
+            popup_data[name_res[0].name] = {id: res[i]._id, amount: res[i].walkscore, type: ' walkscore rating'};
+          });
+        }
       });
       return false;
     });
   });
 </script>
-
-<script type="text/javascript">
-  mapboxgl.accessToken = 'pk.eyJ1IjoiYWdyYXZlcyIsImEiOiJjaXR0ajNxb3kwMDJjMnRudnZiNXM4a2dyIn0.Mn-5UfKLdqtewXmk9P4gyA';
-  var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/agraves/cj9dbpixh61632rn29p4lyqov',
-    center: [-75.156117, 39.977890],
-    zoom: 11,
-    minZoom: 10
-  });
-
-      // load neighborhoods layer
-      map.on('load', function() {
-        map.addSource('data', {
-          type: 'geojson',
-          data: '/js/neighborhoods.geojson'
-        });
-        map.addLayer({
-          "id": "neighborhoods",
-          "type": "fill",
-          "source": "data",
-          "paint": {
-            "fill-color": "#2AB0C6",
-            "fill-opacity": 0.5
-          }
-        });
-        // add lines to define the boundaries
-        map.addLayer({
-          "id": "neighborhood-lines",
-          "type": "line",
-          "source": "data",
-          "paint": {
-            "line-color": "#2AB0C6",
-            "line-width": 1.5
-          }
-        })
-      });
-    </script>
-  </body>
-  </html>
+</body>
+</html>
