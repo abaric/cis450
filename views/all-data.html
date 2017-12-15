@@ -68,7 +68,6 @@
                 grad = res[i].graduation_rate != null ? res[i].graduation_rate + '%' : 'no data';
                 keystone = res[i].keystone_proficiency_rate != null ? res[i].keystone_proficiency_rate + '%' : 'no data';
                 college = res[i].most_positive_student_college_readiness_rating != null ? res[i].most_positive_student_college_readiness_rating + '%' : 'no data';
-                console.log(grad);
                 $('#results').append('<p>' + res[i].name + ' (' + grad + ', ' + keystone + ', ' + college + ')</p>');
               }
             });
