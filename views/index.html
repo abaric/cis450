@@ -114,6 +114,7 @@
 
 <script type="text/javascript">
   mapboxgl.accessToken = 'pk.eyJ1IjoiYWdyYXZlcyIsImEiOiJjaXR0ajNxb3kwMDJjMnRudnZiNXM4a2dyIn0.Mn-5UfKLdqtewXmk9P4gyA';
+  var popup_data = new Object();
   var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/agraves/cj9dbpixh61632rn29p4lyqov',
@@ -154,7 +155,9 @@
         "line-width": 1.5
       }
     })
+
   });
+
 
   // Create a popup, but don't add it to the map yet.
   var popup = new mapboxgl.Popup({
@@ -166,9 +169,21 @@
       map.getCanvas().style.cursor = 'pointer';
       // Populate the popup and set its coordinates
       // based on the feature found.
+      var result = "";
+      if (e) {
+        var name = e.features[0].properties.listname;
+        // Correct one name mismatch between geojson and csv files 
+        if (name == "Northeast Phila Airport") {
+          name = "Northeast Airport";
+        }
+        console.log(name);
+        var name_no_commas = name.replace(",", "");
+        result = popup_data[name_no_commas];
+      }
       popup.setLngLat(e.lngLat)
-          .setHTML("<p>TODO: Will query data/description of the neighborhood based on coordinates</p>")
+          .setHTML("<p> <b>" + name + "</b> <br />" + `${result.crimes}` + "</p>")
           .addTo(map);
+      console.log(result);
   });
   map.on('mouseleave', 'neighborhoods', function() {
       map.getCanvas().style.cursor = '';
@@ -183,11 +198,23 @@
   $(function() {
     $('#bt').on("touchstart click", function(event) {
       var menu_item = $('#t').find(":selected").val();
+      popup_data = new Object();
       if (menu_item == 'walkscore') {
         console.log('endpoint not yet implemented');
       } else {
         $.get('/all?table=' + menu_item, function(res){
           ////// MAPBOX PARSING HERE OF RES //////
+          if (menu_item == 'crimes') {
+            $.get('/crimes-all?id=' + i, function(pop_res) {
+              popup_data[i] = pop_res;
+            });
+          }
+          else if (menu_item == 'schools') {
+
+          }
+          else {
+
+          }
           // not really sure how we're supposed to be displaying this data in mapbox
           console.log(res);
         });
@@ -202,10 +229,10 @@
       var crime = $('#selected_crime').find(":selected").val();
       var rows = $('#rows_crime').val();
       var ord = $('#order_crime').find(":selected").val();
-
+      popup_data = new Object();
       $.get('/crime?num_rows=' + rows + '&ordering=' + ord + '&crime_type=' + crime, function(res) {
         // get ids of neighborhoods to include
-        ids = []
+        ids = [];
         for (var i in res) {
           ids.push(res[i].id - 1);
         }
@@ -226,6 +253,14 @@
         });
 
         console.log(res);
+        for (const x in res) {
+          $.get('/crimes-neighborhood?id=' + `${res[x].id}` + '&crime_type=' + crime, function(pop_res) {
+            console.log(pop_res);
+            popup_data[pop_res[0].name] = {id: pop_res[0].id, crimes: pop_res[0].crimes};
+            console.log(x);
+          });
+        }
+        console.log(popup_data);
       });
       return false;
     });
@@ -237,6 +272,7 @@
       var school = $('#selected_school').find(":selected").val();
       var rows = $('#rows_school').val();
       var ord = $('#order_school').find(":selected").val();
+      popup_data = new Object();
       $.get('/education?metric=' + ord + '&education_num=' + rows + '&educ_type=' + school, function(res) {
         // get ids of neighborhoods to include
         ids = []
@@ -271,6 +307,7 @@
       var neighborhoods = $('#num_neighborhoods').val();
       var from = $('#from').val();
       var to = $('#to').val();
+      popup_data = new Object();
       $.get('/walkscore?walkscore=' + neighborhoods + '&w_min=' + from + '&w_max=' + to, function(res) {
         // get ids of neighborhoods to include
         ids = []
