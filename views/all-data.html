@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title><%= title %></title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2AB0C6">
+  <meta name="theme-color" content="#FFFFFF">
+
+  <meta property="og:title" content="Philly Guide">
+  <meta property="og:description" content="An interactive guide to Philadelphia neighborhoods featuring crime, education, and walk score datasets.">
+  <meta property="og:url" content="https://philly-guide.herokuapp.com/all-data/">
+  <meta property="og:image" content="https://philly-guide.herokuapp.com/og.png">
+  <link href="/stylesheets/style.css" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <a href="./"><img src="logo.svg" alt="logo" class="logo"></a>
+      <h1><%= title %></h1>
+      <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
+
+      <h2>All data</h2>
+
+      <form method="GET" id="all-form" name="table" action="/all">
+        Show all data on
+        <select>
+          <option value="crimes">crimes</option>
+          <option value="schools">schools</option>
+          <option value="walkscore">walkscore</option>
+        </select>
+        <input class="button" id="submit-all" type="submit" value="SEARCH ALL">
+      </form>
+    </div>
+
+    <div class="list">
+      <div id="results"></div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // get all neighborhoods data form
+    $(function() {
+      $('#submit-all').on('touchstart click', function(event) {
+        var menu_item = $('#all-form').find(':selected').val();
+        $('#results').empty();
+        switch (menu_item) {
+          case 'crimes':
+            $.get('/crimes-all?field=name', function(res) {
+              $('#results').append('<p>Neighborhood (Total Number of Crime Incidents)</p>');
+              for (var i in res) {
+                $('#results').append('<p>' + res[i].name + ' (' + res[i].crimes + ' incidents)</p>');
+              }
+            });
+            break;
+
+          case 'schools':
+            $.get('/all?table=' + menu_item, function(res) {
+              $('#results').append('<p>School Name (Graduation Rate, Keystone Exam Proficiency Rate, Rate of \'Most Positive\' College Readiness Responses)</p>');
+              for (var i in res) {
+                grad = res[i].graduation_rate != null ? res[i].graduation_rate + '%' : 'no data';
+                keystone = res[i].keystone_proficiency_rate != null ? res[i].keystone_proficiency_rate + '%' : 'no data';
+                college = res[i].most_positive_student_college_readiness_rating != null ? res[i].most_positive_student_college_readiness_rating + '%' : 'no data';
+                $('#results').append('<p>' + res[i].name + ' (' + grad + ', ' + keystone + ', ' + college + ')</p>');
+              }
+            });
+            break;
+
+          case 'walkscore':
+            $.get('/walkscore?walkscore=158&w_min=0&w_max=100', function(res) {
+              $('#results').append('<p>Neighborhood (Walkscore)</p>');
+              // get the names associated with the neighborhood ids
+              $.get('/all?table=neighborhoods', function(nRes) {
+                for (var i in res) {
+                  $('#results').append('<p>' + nRes[res[i]._id - 1].name + ' (' + res[i].walkscore + ')</p>');
+                }
+              });
+            });
+            break;
+
+          default:
+            return false;
+        }
+        return false;
+      });
+    });
+  </script>
+</body>
+</html>
