@@ -25,21 +25,11 @@
 <body>
   <div class="container">
     <div class="sidebar">
-      <img src="logo.svg" alt="logo" class="logo">
+      <a href="./"><img src="logo.svg" alt="logo" class="logo"></a>
       <h1><%= title %></h1>
       <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
 
       <h2>Search by neighborhoods</h2>
-
-      <form method="GET" id="t" name="table" action="/all">
-        Show all data on
-        <select>
-          <option value="crimes">crimes</option>
-          <option value="schools">schools</option>
-          <option value="walkscore">walkscore</option>
-        </select>
-        <input class="button" id="bt" type="submit" value="SEARCH ALL">
-      </form>
 
       <form method="GET" id="t1" name="table1" action="/education">
         <select id="order_school" name="metric">
@@ -105,6 +95,8 @@
       <input name="w_min" id="from" type="text" size=3 value="0"> to <input name ="w_max" id="to" type="text" size=3 value="100">
       <input class="button" id="bt_walk" type="submit" value="SEARCH WALKSCORE">
     </form>
+
+    <a href="./all-data"><h2>See all data</h2></a>
   </div>
 
   <div class="map">
@@ -154,23 +146,6 @@
         "line-width": 1.5
       }
     })
-  });
-
-  // get all neighborhoods data form
-  $(function() {
-    $('#bt').on("touchstart click", function(event) {
-      var menu_item = $('#t').find(":selected").val();
-      if (menu_item == 'walkscore') {
-        console.log('endpoint not yet implemented');
-      } else {
-        $.get('/all?table=' + menu_item, function(res){
-          ////// MAPBOX PARSING HERE OF RES //////
-          // not really sure how we're supposed to be displaying this data in mapbox
-          console.log(res);
-        });
-      }
-      return false;
-    });
   });
 
   // get all crimes data form

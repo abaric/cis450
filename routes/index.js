@@ -41,6 +41,11 @@ router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Philly Guide'});
 });
 
+/* GET all data page. */
+router.get('/all-data', function(req, res, next) {
+	res.render('all-data', { title: 'Philly Guide'});
+});
+
 /* GET all kinds of data from the tables. */
 router.get('/all', function(req, res, next) {
 	var table = req.query['table'];
