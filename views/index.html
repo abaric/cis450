@@ -54,7 +54,7 @@
         </select>
         incidents of
         <select id="selected_crime" name="crime_type">
-          <option value="%">All Crimes</option>
+          <option value="ALL">All Crimes</option>
           <option value="Aggravated Assault Firearm">Aggravated Assault (Firearm)</option>
           <option value="Aggravated Assault No Firearm">Aggravated Assault (No Firearm)</option>
           <option value="All Other Offenses">All Other Offenses</option>
@@ -151,7 +151,7 @@
     })
 
     // Default stats 
-    $.get('/crimes-all', function(res) {
+    $.get('/crimes-all?rows=200&ordering=DESC', function(res) {
       console.log(res);
       for (const x in res) {
         popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
@@ -236,8 +236,7 @@
       console.log(menu_item);
       popup_data = new Object();
       if (menu_item == 'crimes') {
-        console.log("parsing crimes...");
-        $.get('/crimes-all', function(res) {
+        $.get('/crimes-all?rows=200&ordering=DESC', function(res) {
           console.log(res);
           for (const x in res) {
             popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
@@ -246,7 +245,6 @@
         });
       }
       else if (menu_item == 'schools') {
-        console.log("parsing schools...");
         $.get('/education-all', function(res) {
           console.log(res);
           for (const x in res) {
@@ -256,7 +254,6 @@
         });
       }
       else if (menu_item == "walkscore") {
-        console.log("parsing walkscore...");
         $.get('/walkscore-all', function(res) {
           console.log(res);
           for (const x in res) {
@@ -294,35 +291,68 @@
       var rows = $('#rows_crime').val();
       var ord = $('#order_crime').find(":selected").val();
       popup_data = new Object();
-      $.get('/crime?num_rows=' + rows + '&ordering=' + ord + '&crime_type=' + crime, function(res) {
-        // get ids of neighborhoods to include
-        console.log(res);
-        ids = [];
-        for (var i in res) {
-          ids.push(res[i].id - 1);
-        }
-
-        // get neighborhoods geoJSON and filter by results
-        $.getJSON('/js/neighborhoods.geojson').done(function(json) {
-          features = [];
-          for (var i in json.features) {
-            i = parseInt(i);
-            if (ids.includes(i)) {
-              features.push(json.features[i]);
-            }
+      if (crime == "ALL") {
+        $.get('/crimes-all?rows=' + rows + '&ordering=' + ord, function(res) {
+          // get ids of neighborhoods to include
+          console.log(res);
+          ids = [];
+          for (var i in res) {
+            ids.push(res[i].id - 1);
           }
 
-          // update features on map
-          json.features = features;
-          map.getSource('data').setData(json);
-        });
+          // get neighborhoods geoJSON and filter by results
+          $.getJSON('/js/neighborhoods.geojson').done(function(json) {
+            features = [];
+            for (var i in json.features) {
+              i = parseInt(i);
+              if (ids.includes(i)) {
+                features.push(json.features[i]);
+              }
+            }
 
-        console.log(res);
-        for (const x in res) {
-          popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
-        }
-        console.log(popup_data);
-      });
+            // update features on map
+            json.features = features;
+            map.getSource('data').setData(json);
+          });
+
+          console.log(res);
+          for (const x in res) {
+            popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
+          }
+          console.log(popup_data);
+        });
+      }
+      else {
+        $.get('/crime?num_rows=' + rows + '&ordering=' + ord + '&crime_type=' + crime, function(res) {
+          // get ids of neighborhoods to include
+          console.log(res);
+          ids = [];
+          for (var i in res) {
+            ids.push(res[i].id - 1);
+          }
+
+          // get neighborhoods geoJSON and filter by results
+          $.getJSON('/js/neighborhoods.geojson').done(function(json) {
+            features = [];
+            for (var i in json.features) {
+              i = parseInt(i);
+              if (ids.includes(i)) {
+                features.push(json.features[i]);
+              }
+            }
+
+            // update features on map
+            json.features = features;
+            map.getSource('data').setData(json);
+          });
+
+          console.log(res);
+          for (const x in res) {
+            popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
+          }
+          console.log(popup_data);
+        });
+      }
       return false;
     });
   });
