@@ -253,7 +253,13 @@
       }
       else if (menu_item == 'schools') {
         console.log("parsing schools...");
-
+        $.get('/education-all', function(res) {
+          console.log(res);
+          for (const x in res) {
+            popup_data[res[x].name] = {id: res[x].id, amount: res[x].category};
+          }
+          console.log(popup_data);
+        });
       }
       else if (menu_item == "walkscore") {
         console.log("parsing walkscore...");
@@ -357,6 +363,10 @@
         });
 
         console.log(res);
+        for (const x in res) {
+          popup_data[res[x].name] = {id: res[x].id, amount: res[x].category};
+        }
+        console.log(popup_data);
       });
       return false;
     });
