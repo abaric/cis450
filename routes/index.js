@@ -60,20 +60,6 @@ router.get('/all', function(req, res, next) {
 	});
 });
 
-/* GET crime data for all-data */
-router.get('/crimes-all', function(req, res, next) {
-	var field = req.query['field'];
-
-	connection.query('SELECT n.' + field + ', COUNT(h.crime_id) as crimes FROM neighborhoods n, happened_in h, crimes c WHERE n.id = h.neighborhood_id AND c.id = h.crime_id GROUP BY n.id ORDER BY crimes', function(err, rows, fields) {
-		if (err) {
-			console.log(err);
-			res.send(500);
-		}
-		console.log('soln: ', JSON.parse(JSON.stringify(rows)));
-		res.json(JSON.parse(JSON.stringify(rows)));
-	});
-});
-
 /* GET walk score. */
 router.get('/walkscore', function(req, res, next) {
 	var neighborhoods = req.query['walkscore'];
@@ -148,8 +134,24 @@ router.get('/crime', function(req, res, next) {
 
 /* GET crime data for all-data */
 router.get('/crimes-all', function(req, res, next) {
+	var num_rows = req.query['rows'];
+	var order = req.query['ordering'];
 	
-	connection.query('SELECT n.name, n.id, COUNT(h.crime_id) as crimes FROM neighborhoods n, happened_in h, crimes c WHERE n.id = h.neighborhood_id AND c.id = h.crime_id GROUP BY n.id ORDER BY crimes DESC', function(err, rows, fields) {
+	connection.query('SELECT n.name, n.id, COUNT(h.crime_id) as crimes FROM neighborhoods n, happened_in h, crimes c WHERE n.id = h.neighborhood_id AND c.id = h.crime_id GROUP BY n.id ORDER BY crimes ' + order + ' LIMIT ' + num_rows, function(err, rows, fields) {
+		if (err) {
+			console.log(err);
+			res.send(500);
+		}
+		console.log('soln: ', JSON.parse(JSON.stringify(rows)));
+		res.json(JSON.parse(JSON.stringify(rows)));
+	});
+});
+
+/* GET crime data for all-data */
+router.get('/crimes-full', function(req, res, next) {
+	var field = req.query['field'];
+
+	connection.query('SELECT n.' + field + ', COUNT(h.crime_id) as crimes FROM neighborhoods n, happened_in h, crimes c WHERE n.id = h.neighborhood_id AND c.id = h.crime_id GROUP BY n.id ORDER BY crimes', function(err, rows, fields) {
 		if (err) {
 			console.log(err);
 			res.send(500);
