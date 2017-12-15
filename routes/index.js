@@ -36,6 +36,8 @@ var connection = mysql.createConnection({
   database:  "phillyguide"
 });
 
+var neighborhoods_max = 158;
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Philly Guide'});
@@ -122,6 +124,15 @@ router.get('/crime', function(req, res, next) {
 	var rows = req.query['num_rows'];
 	var order = req.query['ordering'];
 
+	//handling illegal input
+	if (rows < 1) {
+		rows = 1;
+	}
+
+	else if (rows > neighborhoods_max) {
+		rows = neighborhoods_max;
+	}
+
 	connection.query('SELECT n.name, n.id, COUNT(h.crime_id) as crimes FROM neighborhoods n, happened_in h, crimes c WHERE n.id = h.neighborhood_id AND c.id = h.crime_id AND c.type LIKE ' + "'" + field + "'" + ' GROUP BY n.id ORDER BY crimes ' + order + ' LIMIT ' + rows, function(err, rows, fields) {
 		if (err) {
 			console.log(err);
@@ -152,6 +163,15 @@ router.get('/education', function(req, res, next) {
 	console.log(field + "FIELD");
 	console.log(num_rows + "numROWS");
 	console.log(m + "metric");
+
+	//handling illegal input
+	if (num_rows < 1) {
+		num_rows = 1;
+	}
+
+	else if (num_rows > neighborhoods_max) {
+		num_rows = neighborhoods_max;
+	}
 
 	connection.query("SELECT n.name, n.id, AVG(s." + field + ") as category FROM neighborhoods n, located_in l, schools s WHERE n.id = l.neighborhood_id AND s.id = l.school_id GROUP by n.id ORDER BY category " + m + " LIMIT " + num_rows, function(err, rows, fields) {
 		if (err) {
