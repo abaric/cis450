@@ -65,7 +65,11 @@
             $.get('/all?table=' + menu_item, function(res) {
               $('#results').append('<p>School Name (Graduation Rate, Keystone Exam Proficiency Rate, Rate of \'Most Positive\' College Readiness Responses)</p>');
               for (var i in res) {
-                $('#results').append('<p>' + res[i].name + ' (' + res[i].graduation_rate + '%, ' + res[i].keystone_proficiency_rate + '%, ' + res[i].most_positive_student_college_readiness_rating + '%)</p>');
+                grad = res[i].graduation_rate != null ? res[i].graduation_rate + '%' : 'no data';
+                keystone = res[i].keystone_proficiency_rate != null ? res[i].keystone_proficiency_rate + '%' : 'no data';
+                college = res[i].most_positive_student_college_readiness_rating != null ? res[i].most_positive_student_college_readiness_rating + '%' : 'no data';
+                console.log(grad);
+                $('#results').append('<p>' + res[i].name + ' (' + grad + ', ' + keystone + ', ' + college + ')</p>');
               }
             });
             break;
