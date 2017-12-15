@@ -160,7 +160,6 @@
     $.get('/crimes-all', function(res) {
       console.log(res);
       for (const x in res) {
-        console.log(x);
         popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
       }
       console.log(popup_data);
@@ -214,9 +213,17 @@
         var name_no_commas = name.replace(",", "");
         result = popup_data[name_no_commas];
       }
-      popup.setLngLat(e.lngLat)
-          .setHTML("<p> <b>" + name + "</b> <br />" + `${result.amount}` + "</p>")
-          .addTo(map);
+      if (result === undefined) {
+        popup.setLngLat(e.lngLat)
+            .setHTML("<p> <b>" + name + "</b> <br />" + "(No data for this neighborhood)" + "</p>")
+            .addTo(map);
+      }
+      else {
+        popup.setLngLat(e.lngLat)
+            .setHTML("<p> <b>" + name + "</b> <br />" + `${result.amount}` + "</p>")
+            .addTo(map);
+      }
+        
       console.log(result);
   });
   map.on('mouseleave', 'neighborhoods', function() {
@@ -239,7 +246,6 @@
         $.get('/crimes-all', function(res) {
           console.log(res);
           for (const x in res) {
-            console.log(x);
             popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
           }
           console.log(popup_data);
@@ -251,7 +257,15 @@
       }
       else if (menu_item == "walkscore") {
         console.log("parsing walkscore...");
-
+        $.get('/walkscore-all', function(res) {
+          console.log(res);
+          for (const x in res) {
+            $.get('/neighborhood?id=' + res[x]._id, function(name_res) {
+              popup_data[name_res[0].name] = {id: res[x]._id, amount: res[x].walkscore};
+            });
+          }
+          console.log(popup_data);
+        });
       }
       else {
         console.log("Error! Invalid menu item!");

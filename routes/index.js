@@ -57,9 +57,9 @@ router.get('/all', function(req, res, next) {
 
 /* GET walk score. */
 router.get('/walkscore', function(req, res, next) {
-  var neighborhoods = req.query['walkscore'];
-  var from_val = req.query['w_min'];
-  var to_val = req.query['w_max'];
+	var neighborhoods = req.query['walkscore'];
+	var from_val = req.query['w_min'];
+	var to_val = req.query['w_max'];
  	scoreOutput.aggregate([{$match: {'walkscore':{"$gte": +from_val, "$lte": +to_val}}},{$match: {'neighborhood_id':{"$ne": null}}},{$group: {_id: "$neighborhood_id", walkscore: {$avg: "$walkscore"}}}, {$sort:{'walkscore':-1}}, {$project:{walkscore: round('$walkscore',2)}}, {$limit:+neighborhoods}], function(err, result){
  		if (err) {
  			console.log(err);
@@ -68,6 +68,33 @@ router.get('/walkscore', function(req, res, next) {
     console.log('soln: ', JSON.parse(JSON.stringify(result)));
     res.json(JSON.parse(JSON.stringify(result)));
  	});
+});
+
+/* GET walk score. */
+router.get('/walkscore-all', function(req, res, next) {
+  
+	scoreOutput.aggregate([{$match: {'walkscore':{"$gte": + "0", "$lte": + "100"}}},{$match: {'neighborhood_id':{"$ne": null}}},{$group: {_id: "$neighborhood_id", walkscore: {$avg: "$walkscore"}}}, {$sort:{'walkscore':-1}}, {$project:{walkscore: round('$walkscore',2)}}, {$limit: + "200"}], function(err, result){
+ 		if (err) {
+ 			console.log(err);
+ 			res.send(500);
+ 		}
+    console.log('soln: ', JSON.parse(JSON.stringify(result)));
+    res.json(JSON.parse(JSON.stringify(result)));
+ 	});
+});
+
+/* GET various data from crimes table. */
+router.get('/neighborhood', function(req, res, next) {
+	var id = req.query['id'];
+
+	connection.query('SELECT n.name FROM neighborhoods n WHERE n.id = ' + "'" + id + "'", function(err, rows, fields) {
+		if(err) {
+			console.log(err);
+			res.send(500);
+		}
+		console.log('soln: ', JSON.parse(JSON.stringify(rows)));
+		res.json(JSON.parse(JSON.stringify(rows)));
+	});
 });
 
 /* GET various data from crimes table. */
