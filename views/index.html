@@ -319,11 +319,7 @@
 
         console.log(res);
         for (const x in res) {
-          $.get('/crimes-neighborhood?id=' + `${res[x].id}` + '&crime_type=' + crime, function(pop_res) {
-            console.log(pop_res);
-            popup_data[pop_res[0].name] = {id: pop_res[0].id, amount: pop_res[0].crimes};
-            console.log(x);
-          });
+          popup_data[res[x].name] = {id: res[x].id, amount: res[x].crimes};
         }
         console.log(popup_data);
       });
@@ -396,6 +392,12 @@
         });
 
         console.log(res);
+        for (const x in res) {
+          $.get('/neighborhood?id=' + res[x]._id, function(name_res) {
+            popup_data[name_res[0].name] = {id: res[x]._id, amount: res[x].walkscore};
+          });
+        }
+        console.log(popup_data);
       });
       return false;
     });

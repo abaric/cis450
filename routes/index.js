@@ -71,6 +71,20 @@ router.get('/walkscore', function(req, res, next) {
 });
 
 /* GET walk score. */
+router.get('/walkscore-neighborhood', function(req, res, next) {
+	var id = req.query['id'];
+	
+ 	scoreOutput.aggregate([{$match: {'walkscore':{"$gte": +from_val, "$lte": +to_val}}},{$match: {'neighborhood_id':{"$ne": null}}},{$group: {_id: "$neighborhood_id", walkscore: {$avg: "$walkscore"}}}, {$sort:{'walkscore':-1}}, {$project:{walkscore: round('$walkscore',2)}}, {$limit:+neighborhoods}], function(err, result){
+ 		if (err) {
+ 			console.log(err);
+ 			res.send(500);
+ 		}
+    console.log('soln: ', JSON.parse(JSON.stringify(result)));
+    res.json(JSON.parse(JSON.stringify(result)));
+ 	});
+});
+
+/* GET walk score. */
 router.get('/walkscore-all', function(req, res, next) {
   
 	scoreOutput.aggregate([{$match: {'walkscore':{"$gte": + "0", "$lte": + "100"}}},{$match: {'neighborhood_id':{"$ne": null}}},{$group: {_id: "$neighborhood_id", walkscore: {$avg: "$walkscore"}}}, {$sort:{'walkscore':-1}}, {$project:{walkscore: round('$walkscore',2)}}, {$limit: + "200"}], function(err, result){
@@ -103,7 +117,7 @@ router.get('/crime', function(req, res, next) {
 	var rows = req.query['num_rows'];
 	var order = req.query['ordering'];
 
-	connection.query('SELECT n.id, COUNT(h.crime_id) as crimes FROM neighborhoods n, happened_in h, crimes c WHERE n.id = h.neighborhood_id AND c.id = h.crime_id AND c.type = ' + "'" + field + "'" + ' GROUP BY n.id ORDER BY crimes ' + order + ' LIMIT ' + rows, function(err, rows, fields) {
+	connection.query('SELECT n.name, n.id, COUNT(h.crime_id) as crimes FROM neighborhoods n, happened_in h, crimes c WHERE n.id = h.neighborhood_id AND c.id = h.crime_id AND c.type = ' + "'" + field + "'" + ' GROUP BY n.id ORDER BY crimes ' + order + ' LIMIT ' + rows, function(err, rows, fields) {
 		if(err) {
 			console.log(err);
 			res.send(500);
