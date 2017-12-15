@@ -90,33 +90,6 @@ router.get('/walkscore', function(req, res, next) {
  	});
 });
 
-/* GET walk score. */
-router.get('/walkscore-neighborhood', function(req, res, next) {
-	var id = req.query['id'];
-
- 	scoreOutput.aggregate([{$match: {'walkscore':{"$gte": +from_val, "$lte": +to_val}}},{$match: {'neighborhood_id':{"$ne": null}}},{$group: {_id: "$neighborhood_id", walkscore: {$avg: "$walkscore"}}}, {$sort:{'walkscore':-1}}, {$project:{walkscore: round('$walkscore',2)}}, {$limit:+neighborhoods}], function(err, result){
- 		if (err) {
- 			console.log(err);
- 			res.send(500);
- 		}
-    console.log('soln: ', JSON.parse(JSON.stringify(result)));
-    res.json(JSON.parse(JSON.stringify(result)));
- 	});
-});
-
-/* GET walk score. */
-router.get('/walkscore-all', function(req, res, next) {
-
-	scoreOutput.aggregate([{$match: {'walkscore':{"$gte": + "0", "$lte": + "100"}}},{$match: {'neighborhood_id':{"$ne": null}}},{$group: {_id: "$neighborhood_id", walkscore: {$avg: "$walkscore"}}}, {$sort:{'walkscore':-1}}, {$project:{walkscore: round('$walkscore',2)}}, {$limit: + "200"}], function(err, result){
- 		if (err) {
- 			console.log(err);
- 			res.send(500);
- 		}
-    console.log('soln: ', JSON.parse(JSON.stringify(result)));
-    res.json(JSON.parse(JSON.stringify(result)));
- 	});
-});
-
 /* GET various data from crimes table. */
 router.get('/neighborhood', function(req, res, next) {
 	var id = req.query['id'];
@@ -140,9 +113,7 @@ router.get('/crime', function(req, res, next) {
 	//handling illegal input
 	if (rows < 1) {
 		rows = 1;
-	}
-
-	else if (rows > neighborhoods_max) {
+	} else if (rows > neighborhoods_max) {
 		rows = neighborhoods_max;
 	}
 
@@ -185,20 +156,6 @@ router.get('/education', function(req, res, next) {
 	}
 
 	connection.query("SELECT n.name, n.id, AVG(s." + field + ") as category FROM neighborhoods n, located_in l, schools s WHERE n.id = l.neighborhood_id AND s.id = l.school_id GROUP by n.id ORDER BY category " + m + " LIMIT " + num_rows, function(err, rows, fields) {
-		if (err) {
-			console.log(err);
-			res.send(500);
-		}
-		console.log('soln: ', JSON.parse(JSON.stringify(rows)));
-		res.json(JSON.parse(JSON.stringify(rows)));
-	});
-});
-
-/* GET various data from schools table. */
-router.get('/education-all', function(req, res, next) {
-	var field = "graduation_rate";
-
-	connection.query("SELECT n.name, n.id, AVG(s." + field + ") as category FROM neighborhoods n, located_in l, schools s WHERE n.id = l.neighborhood_id AND s.id = l.school_id GROUP by n.id ORDER BY category DESC", function(err, rows, fields) {
 		if (err) {
 			console.log(err);
 			res.send(500);
