@@ -48,6 +48,11 @@ router.get('/all-data', function(req, res, next) {
 	res.render('all-data', { title: 'Philly Guide'});
 });
 
+/* GET all data page. */
+router.get('/social', function(req, res, next) {
+	res.render('twitter', { title: 'Philly Guide'});
+});
+
 /* GET all kinds of data from the tables. */
 router.get('/all', function(req, res, next) {
 	var table = req.query['table'];
@@ -71,9 +76,7 @@ router.get('/walkscore', function(req, res, next) {
 	//handling illegal input
 	if (neighborhoods < 1) {
 		neighborhoods = 1;
-	}
-
-	else if (neighborhoods > neighborhoods_max) {
+	} else if (neighborhoods > neighborhoods_max) {
 		neighborhoods = neighborhoods_max;
 	}
 
@@ -177,9 +180,7 @@ router.get('/education', function(req, res, next) {
 	//handling illegal input
 	if (num_rows < 1) {
 		num_rows = 1;
-	}
-
-	else if (num_rows > neighborhoods_max) {
+	} else if (num_rows > neighborhoods_max) {
 		num_rows = neighborhoods_max;
 	}
 

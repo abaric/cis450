@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title><%= title %></title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2AB0C6">
+  <meta name="theme-color" content="#FFFFFF">
+
+  <meta property="og:title" content="Philly Guide">
+  <meta property="og:description" content="An interactive guide to Philadelphia neighborhoods featuring crime, education, and walk score datasets.">
+  <meta property="og:url" content="https://philly-guide.herokuapp.com/all-data/">
+  <meta property="og:image" content="https://philly-guide.herokuapp.com/og.png">
+  <link href="/stylesheets/style.css" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <a href="./"><img src="logo.svg" alt="logo" class="logo"></a>
+      <h1><%= title %></h1>
+      <p class="credit">Built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams</p>
+
+    </div>
+
+    <div class="list timeline">
+      <a class="twitter-timeline" href="https://twitter.com/hashtag/Philly" data-widget-id="941754355115536386">#Philly Tweets</a>
+      <script>
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+      </script>
+    </div>
+  </div>
+</body>
+</html>

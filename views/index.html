@@ -99,6 +99,7 @@
     </form>
 
     <a href="./all-data"><h2>See all data</h2></a>
+    <a href="./social"><h2>See social data</h2></a>
   </div>
 
   <div class="map">
@@ -227,7 +228,7 @@
           type = ' incidents of ' + type.toLowerCase();
         }
 
-        for (var i in res) {
+        for (const i in res) {
           popup_data[res[i].name] = {id: res[i].id, amount: res[i].crimes, type: type};
         }
       });
@@ -266,7 +267,7 @@
 
         // get styled type from selector
         var type = $('#selected_school').find(":selected").text();
-        for (var i in res) {
+        for (const i in res) {
           popup_data[res[i].name] = {id: res[i].id, amount: res[i].category, type: '% ' + type};
         }
       });
@@ -303,7 +304,7 @@
           map.getSource('data').setData(json);
         });
 
-        for (var i in res) {
+        for (const i in res) {
           $.get('/neighborhood?id=' + res[i]._id, function(name_res) {
             popup_data[name_res[0].name] = {id: res[i]._id, amount: res[i].walkscore, type: ' walkscore rating'};
           });

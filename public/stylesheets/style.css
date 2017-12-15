@@ -93,6 +93,12 @@ form:last-of-type {
   overflow-y: scroll;
 }
 
+.timeline {
+  /*display: flex;
+  align-content: center;*/
+  text-align: center;
+}
+
 .error {
   width: 100%;
   text-align: center;
