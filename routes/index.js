@@ -18,12 +18,12 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 var walkscoreSchema = new mongoose.Schema({
-_id: mongoose.Schema.Types.ObjectId,
-description: String,
-walkscore: Number,
-neighborhood_id: Number,
-latitude: Number,
-longitude: Number
+  _id: mongoose.Schema.Types.ObjectId,
+  description: String,
+  walkscore: Number,
+  neighborhood_id: Number,
+  latitude: Number,
+  longitude: Number
 }, {collection: 'walkscore'});
 
 var scoreOutput = mongoose.model("scoreOutput", walkscoreSchema);

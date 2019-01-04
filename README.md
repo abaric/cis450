@@ -1,6 +1,8 @@
 Philly Guide
 ============
 
+Philly Guide's interactive features for the graduation rate and crime datasets are no longer active, but it can be visited at [https://philly-guide.herokuapp.com](https://philly-guide.herokuapp.com) to see the map and use the walk score feature.
+
 About
 ----------
 Philly Guide was built by Andrea Baric, Regina Burd, Alex Graves, and Mane Williams for our CIS450 (Database and Info Systems) final project.

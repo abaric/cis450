@@ -31,6 +31,13 @@
 
       <h2>Search by neighborhoods</h2>
 
+      <form method="GET" id="t3" action="/walkscore">
+        Top
+        <input name="walkscore" id="num_neighborhoods" type="text" size=3 value="10"> with walkscore from
+        <input name="w_min" id="from" type="text" size=3 value="0"> to <input name ="w_max" id="to" type="text" size=3 value="100">
+        <input class="button" id="bt_walk" type="submit" value="SEARCH WALKSCORE">
+      </form>
+
       <form method="GET" id="t1" name="table1" action="/education">
         <select id="order_school" name="metric">
           <option value="desc">Best</option>
@@ -43,7 +50,7 @@
           <option value="keystone_proficiency_rate">Keystone Test proficiency rate</option>
           <option value="most_positive_student_college_readiness_rating">student college readiness rating</option>
         </select>
-        <input class="button" id="bt_school" value="SEARCH SCHOOLS" type="submit">
+        <input class="button" id="bt_school" value="SEARCH SCHOOLS" type="submit" disabled>
       </form>
 
       <form method="GET" name="table2" action="/crime">
@@ -88,15 +95,8 @@
           <option value="Vandalism/Criminal Mischief">Vandalism/Criminal Mischief</option>
           <option value="Weapon Violations">Weapon Violations</option>
         </select>
-        <input class="button" id="bt_crime" value="SEARCH CRIME" type="submit">
+        <input class="button" id="bt_crime" value="SEARCH CRIME" type="submit" disabled>
       </form>
-
-    <form method="GET" id="t3" action="/walkscore">
-      Top
-      <input name="walkscore" id="num_neighborhoods" type="text" size=3 value="10"> with walkscore from
-      <input name="w_min" id="from" type="text" size=3 value="0"> to <input name ="w_max" id="to" type="text" size=3 value="100">
-      <input class="button" id="bt_walk" type="submit" value="SEARCH WALKSCORE">
-    </form>
 
     <a href="./all-data"><h2>See all data</h2></a>
     <a href="./social"><h2>See social data</h2></a>
@@ -284,31 +284,26 @@
       popup_data = new Object();
       $.get('/walkscore?walkscore=' + neighborhoods + '&w_min=' + from + '&w_max=' + to, function(res) {
         // get ids of neighborhoods to include
-        ids = []
+        ids = [];
+        names = [];
         for (var i in res) {
           ids.push(res[i]._id - 1);
         }
 
         // get neighborhoods geoJSON and filter by results
         $.getJSON('/js/neighborhoods.geojson').done(function(json) {
-          features = [];
-          for (var i in json.features) {
-            i = parseInt(i);
-            if (ids.includes(i)) {
-              features.push(json.features[i]);
-            }
-          }
+          features = ids.map(id => json.features[id]);
+          names = ids.map(id => json.features[id].properties.listname.replace(',', ''));
 
           // update features on map
           json.features = features;
           map.getSource('data').setData(json);
-        });
 
-        for (const i in res) {
-          $.get('/neighborhood?id=' + res[i]._id, function(name_res) {
-            popup_data[name_res[0].name] = {id: res[i]._id, amount: res[i].walkscore, type: ' walkscore rating'};
-          });
-        }
+          // update popup data
+          for (const i in res) {
+            popup_data[names[i]] = {id: res[i]._id, amount: res[i].walkscore, type: ' walkscore rating'};
+          }
+        });
       });
       return false;
     });
